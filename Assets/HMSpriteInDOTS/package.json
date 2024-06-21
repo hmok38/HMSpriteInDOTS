@@ -1,0 +1,22 @@
+{
+  "name": "com.hm.HMSpriteInDOTS",
+  "version": "1.0.0",
+  "displayName": "HMSprite",
+  "description": "HMSpriteInDOTS",
+  "unity": "2022.3",
+  "dependencies": {
+    "com.unity.entities.graphics": "1.2.3"
+  },
+  "author": {
+    "name": "HuangMin",
+    "email": "hmok@163.com",
+    "url": "https://github.com/hmok38/HMSpriteInDOTS"
+  },
+  "samples": [
+    {
+      "displayName": "sample",
+      "description": "示例项目",
+      "path": "Samples/SampleURP"
+    }
+  ]
+}
