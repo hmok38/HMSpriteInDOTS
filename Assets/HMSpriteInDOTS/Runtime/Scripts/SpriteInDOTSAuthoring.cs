@@ -129,7 +129,7 @@ namespace HMSpriteInDOTS
                 {
                     Sprite = authoring.sprite
                 };
-                Debug.Log($"烘焙 sprite {authoring.sprite.name} {authoring.sprite.GetHashCode()} texture: {authoring.sprite.texture.name}  {authoring.sprite.texture.GetHashCode()}");
+                //Debug.Log($"烘焙 sprite {authoring.sprite.name} {authoring.sprite.GetHashCode()} texture: {authoring.sprite.texture.name}  {authoring.sprite.texture.GetHashCode()}");
                
 
                 AddComponentObject(entity, spriteInDOTSRegisterBakeSprite);

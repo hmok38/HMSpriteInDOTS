@@ -44,11 +44,11 @@ namespace HM.FrameAnimation
 
                     if (!spriteInDOTSSystem.SpriteMap.ContainsKey(spriteHash))
                     {
-                        Debug.Log($"FrameAnimation注册sprite {sprite.name} {spriteHash}");
+                        //Debug.Log($"FrameAnimation注册sprite {sprite.name} {spriteHash}");
                         var textureHash = sprite.texture.GetHashCode();
                         if (!spriteInDOTSSystem.MaterialMap.ContainsKey(textureHash))
                         {
-                            Debug.Log($"FrameAnimation注册texture {sprite.texture.name}  {textureHash}");
+                            //Debug.Log($"FrameAnimation注册texture {sprite.texture.name}  {textureHash}");
                             var mat = SpriteInDOTSMgr.CreateNewMaterial(sprite.texture.name);
                             mat.mainTexture = sprite.texture;
                             var id = graphicsSystem.RegisterMaterial(mat);

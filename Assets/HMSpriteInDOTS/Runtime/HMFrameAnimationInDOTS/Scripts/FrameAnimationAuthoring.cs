@@ -146,7 +146,7 @@ namespace HM.FrameAnimation
                     }
                 }
 
-                Debug.Log($"FrameAnimationBaker 添加FrameAnimationRegisterBakerSprite");
+                //Debug.Log($"FrameAnimationBaker 添加FrameAnimationRegisterBakerSprite");
                 AddComponentObject(entity, bakeSprite);
             }
         }
