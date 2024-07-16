@@ -11,24 +11,53 @@ namespace HMSpriteInDOTS
     /// <summary>
     /// 给mono访问的管理器
     /// </summary>
-    public class SpriteInDOTSMgr
+    public static class SpriteInDOTSMgr
     {
-        public static SpriteInDOTSMgr Instance { get; private set; } = new SpriteInDOTSMgr();
-
-        private static World MWorld => Unity.Entities.World.DefaultGameObjectInjectionWorld;
-
-        private static SystemHandle SpriteSystemHandle =>
-            MWorld.Unmanaged
-                .GetExistingUnmanagedSystem<HMSpriteInDOTSSystem>();
-
-        private EntitiesGraphicsSystem CurrentGraphicsSystem => MWorld
-            .GetExistingSystemManaged<EntitiesGraphicsSystem>();
+        public static World MWorld { get; private set; }
 
 
-        public BatchMeshID MeshID
+        private static SystemHandle SpriteSystemHandle
         {
             get
             {
+                if (MWorld == null || !MWorld.IsCreated)
+                {
+                    Debug.LogError("使用SpriteInDOTS系统的时候请先调用Init");
+                    return default;
+                }
+
+                return MWorld.Unmanaged
+                    .GetExistingUnmanagedSystem<HMSpriteInDOTSSystem>();
+            }
+        }
+
+
+        private static EntitiesGraphicsSystem CurrentGraphicsSystem
+        {
+            get
+            {
+                if (MWorld == null || !MWorld.IsCreated)
+                {
+                    Debug.LogError("使用SpriteInDOTS系统的时候请先调用Init");
+                    return default;
+                }
+
+                return MWorld
+                    .GetExistingSystemManaged<EntitiesGraphicsSystem>();
+            }
+        }
+
+
+        public static BatchMeshID MeshID
+        {
+            get
+            {
+                if (MWorld == null || !MWorld.IsCreated)
+                {
+                    Debug.LogError("使用SpriteInDOTS系统的时候请先调用Init");
+                    return default;
+                }
+
                 BatchMeshID id = MWorld.Unmanaged.GetUnsafeSystemRef<HMSpriteInDOTSSystem>(SpriteSystemHandle).MeshID;
                 if (id == BatchMeshID.Null)
                 {
@@ -44,6 +73,15 @@ namespace HMSpriteInDOTS
             }
         }
 
+        public static bool Init(World world)
+        {
+            if (world == null || !world.IsCreated) return false;
+            MWorld = world;
+            var id = MeshID;
+            Debug.Log($"SpriteInDOTS Init id={id.value}");
+            return true;
+        }
+
         public static Material CreateNewMaterial(string name = "HMSpriteInDOTS")
         {
             var mat = Resources.Load<Material>(
@@ -56,8 +94,14 @@ namespace HMSpriteInDOTS
             return material;
         }
 
-        public SpriteInDOTSId RegisterSprite(Sprite sprite)
+        public static SpriteInDOTSId RegisterSprite(Sprite sprite)
         {
+            if (MWorld == null || !MWorld.IsCreated)
+            {
+                Debug.LogError("使用SpriteInDOTS系统的时候请先调用Init");
+                return default;
+            }
+
             if (sprite == null) return default;
             var hashCode = sprite.GetHashCode();
             var textureCode = sprite.texture.GetHashCode();

@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 
 namespace HMSpriteInDOTS
 {
-    [BurstCompile]
+    [BurstCompile][CreateAfter(typeof(EntitiesGraphicsSystem))]
     public partial struct HMSpriteInDOTSSystem : Unity.Entities.ISystem
     {
         public NativeHashMap<int, SpriteInDOTSId> SpriteMap;
@@ -16,12 +16,11 @@ namespace HMSpriteInDOTS
         public BatchMeshID MeshID;
 
 
-        [BurstCompile]
         public void OnCreate(ref SystemState state)
         {
+            if (SpriteInDOTSMgr.MWorld == null) SpriteInDOTSMgr.Init(state.World);
             SpriteMap = new NativeHashMap<int, SpriteInDOTSId>(1000, Allocator.Persistent);
             MaterialMap = new NativeHashMap<int, BatchMaterialID>(100, Allocator.Persistent);
-            MeshID = BatchMeshID.Null;
         }
 
         [BurstCompile]

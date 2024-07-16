@@ -7,10 +7,12 @@ using UnityEngine;
 
 namespace HM.FrameAnimation
 {
+    [CreateAfter(typeof(EntitiesGraphicsSystem))]
     public partial struct FrameAnimationRegisterBakerSpriteSystem : Unity.Entities.ISystem
     {
         public void OnCreate(ref SystemState state)
         {
+            if (SpriteInDOTSMgr.MWorld == null) SpriteInDOTSMgr.Init(state.World);
             state.RequireForUpdate<FrameAnimationRegisterBakerSprite>();
         }
 
@@ -22,8 +24,8 @@ namespace HM.FrameAnimation
             var spriteInDOTSSystem = state.WorldUnmanaged.GetUnsafeSystemRef<HMSpriteInDOTSSystem>(handle);
            
           
-
-
+            
+            //Debug.Log($"FrameAnimationRegisterBakerSpriteSystem MeshID ={spriteInDOTSSystem.MeshID.value}");
             foreach (var (spriteInDotsRw, spriteInDOTSRegisterBakeSprite, entity) in
                      SystemAPI
                          .Query<RefRW<SpriteInDOTS>, FrameAnimationRegisterBakerSprite>().WithEntityAccess())
