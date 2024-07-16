@@ -12,7 +12,6 @@ namespace HMSpriteInDOTS
     {
         public void OnCreate(ref SystemState state)
         {
-            if (SpriteInDOTSMgr.MWorld == null) SpriteInDOTSMgr.Init(state.World);
             state.RequireForUpdate<SpriteInDOTSRegisterBakeSprite>();
         }
 

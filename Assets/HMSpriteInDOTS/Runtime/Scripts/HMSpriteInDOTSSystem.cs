@@ -18,7 +18,7 @@ namespace HMSpriteInDOTS
 
         public void OnCreate(ref SystemState state)
         {
-            if (SpriteInDOTSMgr.MWorld == null) SpriteInDOTSMgr.Init(state.World);
+            SpriteInDOTSMgr.Init();
             SpriteMap = new NativeHashMap<int, SpriteInDOTSId>(1000, Allocator.Persistent);
             MaterialMap = new NativeHashMap<int, BatchMaterialID>(100, Allocator.Persistent);
         }

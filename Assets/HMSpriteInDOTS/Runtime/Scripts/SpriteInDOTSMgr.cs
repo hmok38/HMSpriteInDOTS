@@ -13,7 +13,7 @@ namespace HMSpriteInDOTS
     /// </summary>
     public static class SpriteInDOTSMgr
     {
-        public static World MWorld { get; private set; }
+        public static World MWorld => World.DefaultGameObjectInjectionWorld;
 
 
         private static SystemHandle SpriteSystemHandle
@@ -73,10 +73,8 @@ namespace HMSpriteInDOTS
             }
         }
 
-        public static bool Init(World world)
+        public static bool Init()
         {
-            if (world == null || !world.IsCreated) return false;
-            MWorld = world;
             var id = MeshID;
             Debug.Log($"SpriteInDOTS Init id={id.value}");
             return true;

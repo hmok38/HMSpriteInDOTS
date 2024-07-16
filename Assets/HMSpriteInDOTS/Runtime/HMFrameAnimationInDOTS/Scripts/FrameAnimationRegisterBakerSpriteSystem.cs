@@ -8,11 +8,11 @@ using UnityEngine;
 namespace HM.FrameAnimation
 {
     [CreateAfter(typeof(EntitiesGraphicsSystem))]
+    [CreateAfter(typeof(HMSpriteInDOTSSystem))]
     public partial struct FrameAnimationRegisterBakerSpriteSystem : Unity.Entities.ISystem
     {
         public void OnCreate(ref SystemState state)
         {
-            if (SpriteInDOTSMgr.MWorld == null) SpriteInDOTSMgr.Init(state.World);
             state.RequireForUpdate<FrameAnimationRegisterBakerSprite>();
         }
 
@@ -22,16 +22,15 @@ namespace HM.FrameAnimation
             var handle = state.WorldUnmanaged.GetExistingUnmanagedSystem<HMSpriteInDOTSSystem>();
             var ecb = new Unity.Entities.EntityCommandBuffer(Allocator.Temp);
             var spriteInDOTSSystem = state.WorldUnmanaged.GetUnsafeSystemRef<HMSpriteInDOTSSystem>(handle);
-           
-          
-            
+
+
             //Debug.Log($"FrameAnimationRegisterBakerSpriteSystem MeshID ={spriteInDOTSSystem.MeshID.value}");
             foreach (var (spriteInDotsRw, spriteInDOTSRegisterBakeSprite, entity) in
                      SystemAPI
                          .Query<RefRW<SpriteInDOTS>, FrameAnimationRegisterBakerSprite>().WithEntityAccess())
             {
                 DynamicBuffer<FrameSpriteData> buffer = ecb.AddBuffer<FrameSpriteData>(entity);
-                
+
                 for (int i = 0; i < spriteInDOTSRegisterBakeSprite.Sprites.Count; i++)
                 {
                     var sprite = spriteInDOTSRegisterBakeSprite.Sprites[i];
@@ -71,8 +70,7 @@ namespace HM.FrameAnimation
                     buffer.Add(new FrameSpriteData() { SpriteHash = spriteHash });
                 }
 
-               
-               
+
                 if (spriteInDOTSRegisterBakeSprite.Sprites.Count > 0 &&
                     spriteInDOTSRegisterBakeSprite.Sprites[0] != null)
                 {
