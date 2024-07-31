@@ -1,11 +1,11 @@
 {
   "name": "com.hm.hmspriteindots",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "displayName": "HMSprite",
   "description": "HMSpriteInDOTS",
   "unity": "2022.3",
   "dependencies": {
-    "com.unity.entities.graphics": "1.2.3"
+    
   },
   "author": {
     "name": "HuangMin",
@@ -14,9 +14,19 @@
   },
   "samples": [
     {
-      "displayName": "sample",
-      "description": "示例项目",
-      "path": "Samples/SampleURP"
+      "displayName": "EcsExtension",
+      "description": "Ecs扩展",
+      "path": "sample~/EcsExtension"
+    },
+    {
+      "displayName": "SampleURP",
+      "description": "URP示例项目",
+      "path": "sample~/SampleURP"
+    },
+    {
+      "displayName": "HMSpriteInDOTSDemo",
+      "description": "Dots示例项目",
+      "path": "sample~/HMSpriteInDOTSDemo"
     }
   ]
 }
