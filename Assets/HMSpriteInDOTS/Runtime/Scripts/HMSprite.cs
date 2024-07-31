@@ -20,7 +20,10 @@ namespace HM.HMSprite
         private static readonly int WidthAndHeightKey = Shader.PropertyToID("_WidthAndHeight");
         private static readonly int SurfaceKey = Shader.PropertyToID("_Surface");
         private static readonly int AlphaClipKey = Shader.PropertyToID("_AlphaClip");
-        private static readonly int ZWriteControlKey = Shader.PropertyToID("_ZWriteControl");
+        private static readonly int ZWriteKey = Shader.PropertyToID("_ZWrite");
+        private static readonly int QueueControlKey = Shader.PropertyToID("_QueueControl");
+        private static readonly int SrcBlendKey = Shader.PropertyToID("_SrcBlend");
+        private static readonly int DstBlendKey = Shader.PropertyToID("_DstBlend");
         private Material _material;
 
         [System.NonSerialized] public bool Baked;
@@ -145,25 +148,59 @@ namespace HM.HMSprite
             }
 
             material.SetInt(DrawTypeKey, GetDrawTypeValue(this.spriteDrawMode));
-            int newValue = this.renderType == RenderType.Opaque ? 0 : 1;
-            int oldValue = material.GetInt(SurfaceKey);
-            if (oldValue != newValue)
+            // int newValue = this.renderType == RenderType.Opaque ? 0 : 1;
+            // int oldValue = material.GetInt(SurfaceKey);
+            // if (oldValue != newValue)
+            // {
+            //   //  Debug.Log("新旧值不同");
+            //     material.SetInt(SurfaceKey, newValue);
+            //     material.SetInt(AlphaClipKey, renderType == RenderType.Opaque ? 1 : 0);
+            //     if (renderType == RenderType.Opaque)
+            //     {
+            //         material.SetInt(ZWriteKey,1);
+            //         material.SetInt(QueueControlKey,1);
+            //         material.renderQueue = 2450;
+            //         material.SetInt(SrcBlendKey,(int)UnityEngine.Rendering.BlendMode.One);
+            //         material.SetInt(DstBlendKey,(int)UnityEngine.Rendering.BlendMode.Zero);
+            //         material.EnableKeyword("_ALPHATEST_ON");
+            //         material.DisableKeyword("_SURFACE_TYPE_TRANSPARENT");
+            //     }
+            //     else
+            //     {
+            //         material.SetInt(ZWriteKey,0);
+            //         material.SetInt(QueueControlKey,1);
+            //         material.renderQueue = 3000;
+            //         
+            //         material.SetInt(SrcBlendKey,(int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+            //         material.SetInt(DstBlendKey,(int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+            //         
+            //         material.DisableKeyword("_ALPHATEST_ON");
+            //         material.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
+            //     }
+            // }
+            material.SetInt(SurfaceKey, this.renderType == RenderType.Opaque ? 0 : 1);
+            material.SetInt(AlphaClipKey, renderType == RenderType.Opaque ? 1 : 0);
+            if (renderType == RenderType.Opaque)
             {
-              //  Debug.Log("新旧值不同");
-                material.SetInt(SurfaceKey, newValue);
-                material.SetInt(AlphaClipKey, renderType == RenderType.Opaque ? 1 : 0);
-                if (renderType == RenderType.Opaque)
-                {
-                    material.EnableKeyword("_ALPHATEST_ON");
-                    material.DisableKeyword("_SURFACE_TYPE_TRANSPARENT");
-                    material.SetInt(ZWriteControlKey,1);
-                }
-                else
-                {
-                    material.DisableKeyword("_ALPHATEST_ON");
-                    material.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
-                    material.SetInt(ZWriteControlKey,0);
-                }
+                material.SetInt(ZWriteKey, 1);
+                material.SetInt(QueueControlKey, 1);
+                material.renderQueue = 2450;
+                material.SetInt(SrcBlendKey, (int)UnityEngine.Rendering.BlendMode.One);
+                material.SetInt(DstBlendKey, (int)UnityEngine.Rendering.BlendMode.Zero);
+                material.EnableKeyword("_ALPHATEST_ON");
+                material.DisableKeyword("_SURFACE_TYPE_TRANSPARENT");
+            }
+            else
+            {
+                material.SetInt(ZWriteKey, 0);
+                material.SetInt(QueueControlKey, 1);
+                material.renderQueue = 3000;
+
+                material.SetInt(SrcBlendKey, (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+                material.SetInt(DstBlendKey, (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+
+                material.DisableKeyword("_ALPHATEST_ON");
+                material.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
             }
         }
 
