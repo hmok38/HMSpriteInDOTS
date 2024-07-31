@@ -20,7 +20,7 @@ namespace HM.HMSprite
         private static readonly int WidthAndHeightKey = Shader.PropertyToID("_WidthAndHeight");
         private static readonly int SurfaceKey = Shader.PropertyToID("_Surface");
         private static readonly int AlphaClipKey = Shader.PropertyToID("_AlphaClip");
-
+        private static readonly int ZWriteControlKey = Shader.PropertyToID("_ZWriteControl");
         private Material _material;
 
         [System.NonSerialized] public bool Baked;
@@ -156,11 +156,13 @@ namespace HM.HMSprite
                 {
                     material.EnableKeyword("_ALPHATEST_ON");
                     material.DisableKeyword("_SURFACE_TYPE_TRANSPARENT");
+                    material.SetInt(ZWriteControlKey,1);
                 }
                 else
                 {
                     material.DisableKeyword("_ALPHATEST_ON");
                     material.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
+                    material.SetInt(ZWriteControlKey,0);
                 }
             }
         }
