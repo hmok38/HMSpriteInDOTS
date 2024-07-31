@@ -1,6 +1,3 @@
-using System;
-using Codice.Client.Common;
-using UnityEditor;
 using UnityEditor.EditorTools;
 using UnityEngine;
 
@@ -16,15 +13,19 @@ namespace HM.HMSprite
     {
         [SerializeField] public Sprite sprite;
         [SerializeField] public Color color = Color.white;
-        private static readonly int PivotAndWh = Shader.PropertyToID("_PivotAndSize");
-        private static readonly int Rect1 = Shader.PropertyToID("_UvRect");
+        private static readonly int PivotAndWhKey = Shader.PropertyToID("_PivotAndSize");
+        private static readonly int RectKey = Shader.PropertyToID("_UvRect");
+        private static readonly int MeshWhKey = Shader.PropertyToID("_MeshWH");
+        private static readonly int BorderKey = Shader.PropertyToID("_Border");
+        private static readonly int DrawTypeKey = Shader.PropertyToID("_DrawType");
+        private static readonly int WidthAndHeightKey = Shader.PropertyToID("_WidthAndHeight");
+
         private Material _material;
 
-        // private MaterialUvRectAuthoring _uvRectAuthoring;
-        // private MaterialPivotAndSizeAuthoring _pivotAndSizeAuthoring;
-        // private MyMaterialColorAuthoring _materialColorAuthoring;
         [System.NonSerialized] public bool Baked;
         public SpriteDrawMode spriteDrawMode = SpriteDrawMode.Simple;
+        public RenderType renderType = RenderType.Opaque;
+        public Vector2 slicedWidthAndHeight;
 
         public Sprite Sprite
         {
@@ -60,7 +61,7 @@ namespace HM.HMSprite
         {
             if (Baked) return;
 
-            Debug.Log(spriteTemp.name + " " + spriteTemp.bounds + " " + spriteTemp.border + " " + spriteTemp.rect);
+            // Debug.Log(spriteTemp.name + " " + spriteTemp.bounds + " " + spriteTemp.border + " " + spriteTemp.rect);
 
             var material = this.GetComponent<MeshRenderer>().sharedMaterial;
 
@@ -77,11 +78,10 @@ namespace HM.HMSprite
             {
                 meshFilter.sharedMesh = HMSprite.SpriteMesh;
             }
-
-
+            
             var uv = new Vector4(0, 0, 1, 1);
             var pivotAndSize = new Vector4(0.5f, 0.5f, 0, 0);
-            if (spriteTemp != null)
+            if (spriteTemp != null && spriteTemp.texture != null)
             {
                 material.mainTexture = spriteTemp.texture;
                 uv = spriteTemp.UVRect();
@@ -93,18 +93,46 @@ namespace HM.HMSprite
             }
 
             material.color = color;
-            material.SetVector(Rect1, uv);
-            material.SetVector(PivotAndWh, pivotAndSize);
+            material.SetVector(RectKey, uv);
+            material.SetVector(PivotAndWhKey, pivotAndSize);
+            if (spriteTemp != null)
 
-        
-            //meshFilter.sharedMesh.bounds = spriteTemp.bounds;
-            //Debug.Log(" sharedMesh.bounds " + meshFilter.sharedMesh.bounds);
-            // _uvRectAuthoring = this.GetComponent<MaterialUvRectAuthoring>();
-            // if (_uvRectAuthoring != null) _uvRectAuthoring.uvRect = uv;
-            // _pivotAndSizeAuthoring = this.GetComponent<MaterialPivotAndSizeAuthoring>();
-            // if (_pivotAndSizeAuthoring != null) _pivotAndSizeAuthoring.pivotAndSize = pivotAndSize;
-            // _materialColorAuthoring = this.GetComponent<MyMaterialColorAuthoring>();
-            // if (_materialColorAuthoring != null) _materialColorAuthoring.color = color;
+            {
+                material.SetVector(MeshWhKey, new Vector4(1, 1, spriteTemp.pixelsPerUnit, 0.5f));
+                material.SetVector(BorderKey, spriteTemp.border);
+                if (slicedWidthAndHeight.x == 0 || slicedWidthAndHeight.y == 0)
+                {
+                    slicedWidthAndHeight.x = spriteTemp.PivotAndUnitSize().z;
+                    slicedWidthAndHeight.y = spriteTemp.PivotAndUnitSize().w;
+                }
+
+                material.SetVector(WidthAndHeightKey, slicedWidthAndHeight);
+                var meshRenderer = this.GetComponent<MeshRenderer>();
+
+                Debug.Log(spriteTemp.name + " before " + meshRenderer.bounds);
+                meshRenderer.bounds = spriteDrawMode == SpriteDrawMode.Sliced
+                    ? new Bounds(this.transform.position,
+                        new Vector3(slicedWidthAndHeight.x, slicedWidthAndHeight.y, 0.1f))
+                    : new Bounds(this.transform.position, new Vector3(
+                        spriteTemp.PivotAndUnitSize().z, spriteTemp.PivotAndUnitSize().w, 0.1f
+                    ));
+              
+                Debug.Log(spriteTemp.name + " after " + meshRenderer.bounds);
+              //  meshRenderer.ResetBounds();
+                Debug.Log(spriteTemp.name + " after2 " + meshRenderer.bounds);
+            }
+            else
+            {
+                material.SetVector(MeshWhKey, new Vector4(1, 1, 100, 0.5f));
+                material.SetVector(BorderKey, Vector4.zero);
+                material.SetVector(WidthAndHeightKey, new Vector4(1, 1));
+                var meshRenderer = this.GetComponent<MeshRenderer>();
+                meshRenderer.ResetLocalBounds();
+                meshRenderer.ResetBounds();
+            }
+
+
+            material.SetInt(DrawTypeKey, GetDrawTypeValue(this.spriteDrawMode));
         }
 
         private void OnValidate()
@@ -113,7 +141,17 @@ namespace HM.HMSprite
             SetSprite(sprite);
         }
 
-       
+        public static int GetDrawTypeValue(SpriteDrawMode spriteDrawMode)
+        {
+            switch (spriteDrawMode)
+            {
+                case SpriteDrawMode.Simple: return 0;
+                case SpriteDrawMode.Sliced: return 1;
+                case SpriteDrawMode.Tiled: return 0;
+            }
+
+            return 0;
+        }
 
         public static Material CreateNewMaterial(string name = "HMSpriteInDOTS")
         {
@@ -188,14 +226,21 @@ namespace HM.HMSprite
         }
     }
 
-#if UNITY_EDITOR
-    [EditorTool("Platform Tool")]
-    public class HMSpriteEditor:UnityEditor.EditorTools.EditorTool
+
+    public enum RenderType
     {
-        
+        Opaque,
+        Transparent
     }
-    
-    
+
+
+#if UNITY_EDITOR
+    // [EditorTool("Platform Tool")]
+    // public class HMSpriteEditor : UnityEditor.EditorTools.EditorTool
+    // {
+    // }
+
+
     // [UnityEditor.CustomEditor(typeof(HMSprite))]
     // public class HMSpriteEditor : UnityEditor.Editor
     // {
