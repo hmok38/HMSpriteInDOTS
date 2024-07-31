@@ -48,7 +48,7 @@ namespace HM.HMSprite.FrameAnimation
                         if (!spriteInDOTSSystem.MaterialMap.ContainsKey(textureHash))
                         {
                             //Debug.Log($"FrameAnimation注册texture {sprite.texture.name}  {textureHash}");
-                            var mat = HMSprite.CreateNewMaterial(sprite.texture.name);
+                            var mat = HMSprite.CreateMaterial(sprite.texture.name);
                             mat.mainTexture = sprite.texture;
                             var id = graphicsSystem.RegisterMaterial(mat);
                             spriteInDOTSSystem.MaterialMap.Add(textureHash, id);

@@ -1,4 +1,4 @@
-Shader "Shader Graphs/HMSpriteInDotsOpaque"
+Shader "Shader Graphs/HMSpriteTest"
 {
     Properties
     {
@@ -244,35 +244,6 @@ Shader "Shader Graphs/HMSpriteInDotsOpaque"
         float2 _WidthAndHeight;
         CBUFFER_END
         
-        #if defined(DOTS_INSTANCING_ON)
-        // DOTS instancing definitions
-        UNITY_DOTS_INSTANCING_START(MaterialPropertyMetadata)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _Color)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _UvRect)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _PivotAndSize)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _MeshWH)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _Border)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float, _DrawType)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float2, _WidthAndHeight)
-        UNITY_DOTS_INSTANCING_END(MaterialPropertyMetadata)
-        // DOTS instancing usage macros
-        #define UNITY_ACCESS_HYBRID_INSTANCED_PROP(var, type) UNITY_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(type, var)
-        #elif defined(UNITY_INSTANCING_ENABLED)
-        // Unity instancing definitions
-        UNITY_INSTANCING_BUFFER_START(SGPerInstanceData)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _UvRect)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _PivotAndSize)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _MeshWH)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _Border)
-            UNITY_DEFINE_INSTANCED_PROP(float, _DrawType)
-            UNITY_DEFINE_INSTANCED_PROP(float2, _WidthAndHeight)
-        UNITY_INSTANCING_BUFFER_END(SGPerInstanceData)
-        // Unity instancing usage macros
-        #define UNITY_ACCESS_HYBRID_INSTANCED_PROP(var, type) UNITY_ACCESS_INSTANCED_PROP(SGPerInstanceData, var)
-        #else
-        #define UNITY_ACCESS_HYBRID_INSTANCED_PROP(var, type) var
-        #endif
         
         // Object and Global properties
         SAMPLER(SamplerState_Linear_Repeat);
@@ -491,10 +462,10 @@ Shader "Shader Graphs/HMSpriteInDotsOpaque"
         VertexDescription VertexDescriptionFunction(VertexDescriptionInputs IN)
         {
             VertexDescription description = (VertexDescription)0;
-            float4 _Property_2c211408dc3b437ab6f31899b8953b97_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_MeshWH, float4);
-            float4 _Property_1434c3f966ff459a960d8365ca5b6e33_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_PivotAndSize, float4);
-            float2 _Property_c6a9a778594b42d3a377e98c496d93c1_Out_0_Vector2 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_WidthAndHeight, float2);
-            float _Property_00c5f1e862f04770a75337e4dfb72e8d_Out_0_Float = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_DrawType, float);
+            float4 _Property_2c211408dc3b437ab6f31899b8953b97_Out_0_Vector4 = _MeshWH;
+            float4 _Property_1434c3f966ff459a960d8365ca5b6e33_Out_0_Vector4 = _PivotAndSize;
+            float2 _Property_c6a9a778594b42d3a377e98c496d93c1_Out_0_Vector2 = _WidthAndHeight;
+            float _Property_00c5f1e862f04770a75337e4dfb72e8d_Out_0_Float = _DrawType;
             float3 _GetPositionCustomFunction_f377b077379847389a07ce6f6e228d0f_outPosition_3_Vector3;
             GetPosition_float(IN.ObjectSpacePosition, _Property_2c211408dc3b437ab6f31899b8953b97_Out_0_Vector4, _Property_1434c3f966ff459a960d8365ca5b6e33_Out_0_Vector4, _Property_c6a9a778594b42d3a377e98c496d93c1_Out_0_Vector2, _Property_00c5f1e862f04770a75337e4dfb72e8d_Out_0_Float, _GetPositionCustomFunction_f377b077379847389a07ce6f6e228d0f_outPosition_3_Vector3);
             description.Position = _GetPositionCustomFunction_f377b077379847389a07ce6f6e228d0f_outPosition_3_Vector3;
@@ -523,15 +494,15 @@ Shader "Shader Graphs/HMSpriteInDotsOpaque"
         SurfaceDescription SurfaceDescriptionFunction(SurfaceDescriptionInputs IN)
         {
             SurfaceDescription surface = (SurfaceDescription)0;
-            float4 _Property_3056f453a9074d778c4583019576b46f_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_Color, float4);
+            float4 _Property_3056f453a9074d778c4583019576b46f_Out_0_Vector4 = _Color;
             UnityTexture2D _Property_be4f70504cbb4e6b83a752ed03e332fd_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            float4 _Property_691fe2672c4e427e81bf1480bdd91a73_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_UvRect, float4);
-            float _Property_bae20385e6f845c4b611e48bc7744935_Out_0_Float = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_DrawType, float);
+            float4 _Property_691fe2672c4e427e81bf1480bdd91a73_Out_0_Vector4 = _UvRect;
+            float _Property_bae20385e6f845c4b611e48bc7744935_Out_0_Float = _DrawType;
             float4 _UV_9fa10a2b0f354fdf8a75654d82e2e719_Out_0_Vector4 = IN.uv0;
-            float4 _Property_874c47cfc09e4c7bad1707edba3cf783_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_PivotAndSize, float4);
-            float2 _Property_528dc8a2cbca45a9b6ec87f95cbf90b8_Out_0_Vector2 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_WidthAndHeight, float2);
-            float4 _Property_bb379e706808487f9c2e7c8358feca98_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_Border, float4);
-            float4 _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_MeshWH, float4);
+            float4 _Property_874c47cfc09e4c7bad1707edba3cf783_Out_0_Vector4 = _PivotAndSize;
+            float2 _Property_528dc8a2cbca45a9b6ec87f95cbf90b8_Out_0_Vector2 = _WidthAndHeight;
+            float4 _Property_bb379e706808487f9c2e7c8358feca98_Out_0_Vector4 = _Border;
+            float4 _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4 = _MeshWH;
             float _Split_f4276b026ecb4c69866ab3d1840e320d_R_1_Float = _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4[0];
             float _Split_f4276b026ecb4c69866ab3d1840e320d_G_2_Float = _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4[1];
             float _Split_f4276b026ecb4c69866ab3d1840e320d_B_3_Float = _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4[2];
@@ -802,35 +773,6 @@ Shader "Shader Graphs/HMSpriteInDotsOpaque"
         float2 _WidthAndHeight;
         CBUFFER_END
         
-        #if defined(DOTS_INSTANCING_ON)
-        // DOTS instancing definitions
-        UNITY_DOTS_INSTANCING_START(MaterialPropertyMetadata)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _Color)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _UvRect)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _PivotAndSize)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _MeshWH)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _Border)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float, _DrawType)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float2, _WidthAndHeight)
-        UNITY_DOTS_INSTANCING_END(MaterialPropertyMetadata)
-        // DOTS instancing usage macros
-        #define UNITY_ACCESS_HYBRID_INSTANCED_PROP(var, type) UNITY_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(type, var)
-        #elif defined(UNITY_INSTANCING_ENABLED)
-        // Unity instancing definitions
-        UNITY_INSTANCING_BUFFER_START(SGPerInstanceData)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _UvRect)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _PivotAndSize)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _MeshWH)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _Border)
-            UNITY_DEFINE_INSTANCED_PROP(float, _DrawType)
-            UNITY_DEFINE_INSTANCED_PROP(float2, _WidthAndHeight)
-        UNITY_INSTANCING_BUFFER_END(SGPerInstanceData)
-        // Unity instancing usage macros
-        #define UNITY_ACCESS_HYBRID_INSTANCED_PROP(var, type) UNITY_ACCESS_INSTANCED_PROP(SGPerInstanceData, var)
-        #else
-        #define UNITY_ACCESS_HYBRID_INSTANCED_PROP(var, type) var
-        #endif
         
         // Object and Global properties
         SAMPLER(SamplerState_Linear_Repeat);
@@ -1044,10 +986,10 @@ Shader "Shader Graphs/HMSpriteInDotsOpaque"
         VertexDescription VertexDescriptionFunction(VertexDescriptionInputs IN)
         {
             VertexDescription description = (VertexDescription)0;
-            float4 _Property_2c211408dc3b437ab6f31899b8953b97_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_MeshWH, float4);
-            float4 _Property_1434c3f966ff459a960d8365ca5b6e33_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_PivotAndSize, float4);
-            float2 _Property_c6a9a778594b42d3a377e98c496d93c1_Out_0_Vector2 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_WidthAndHeight, float2);
-            float _Property_00c5f1e862f04770a75337e4dfb72e8d_Out_0_Float = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_DrawType, float);
+            float4 _Property_2c211408dc3b437ab6f31899b8953b97_Out_0_Vector4 = _MeshWH;
+            float4 _Property_1434c3f966ff459a960d8365ca5b6e33_Out_0_Vector4 = _PivotAndSize;
+            float2 _Property_c6a9a778594b42d3a377e98c496d93c1_Out_0_Vector2 = _WidthAndHeight;
+            float _Property_00c5f1e862f04770a75337e4dfb72e8d_Out_0_Float = _DrawType;
             float3 _GetPositionCustomFunction_f377b077379847389a07ce6f6e228d0f_outPosition_3_Vector3;
             GetPosition_float(IN.ObjectSpacePosition, _Property_2c211408dc3b437ab6f31899b8953b97_Out_0_Vector4, _Property_1434c3f966ff459a960d8365ca5b6e33_Out_0_Vector4, _Property_c6a9a778594b42d3a377e98c496d93c1_Out_0_Vector2, _Property_00c5f1e862f04770a75337e4dfb72e8d_Out_0_Float, _GetPositionCustomFunction_f377b077379847389a07ce6f6e228d0f_outPosition_3_Vector3);
             description.Position = _GetPositionCustomFunction_f377b077379847389a07ce6f6e228d0f_outPosition_3_Vector3;
@@ -1076,13 +1018,13 @@ Shader "Shader Graphs/HMSpriteInDotsOpaque"
         {
             SurfaceDescription surface = (SurfaceDescription)0;
             UnityTexture2D _Property_be4f70504cbb4e6b83a752ed03e332fd_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            float4 _Property_691fe2672c4e427e81bf1480bdd91a73_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_UvRect, float4);
-            float _Property_bae20385e6f845c4b611e48bc7744935_Out_0_Float = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_DrawType, float);
+            float4 _Property_691fe2672c4e427e81bf1480bdd91a73_Out_0_Vector4 = _UvRect;
+            float _Property_bae20385e6f845c4b611e48bc7744935_Out_0_Float = _DrawType;
             float4 _UV_9fa10a2b0f354fdf8a75654d82e2e719_Out_0_Vector4 = IN.uv0;
-            float4 _Property_874c47cfc09e4c7bad1707edba3cf783_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_PivotAndSize, float4);
-            float2 _Property_528dc8a2cbca45a9b6ec87f95cbf90b8_Out_0_Vector2 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_WidthAndHeight, float2);
-            float4 _Property_bb379e706808487f9c2e7c8358feca98_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_Border, float4);
-            float4 _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_MeshWH, float4);
+            float4 _Property_874c47cfc09e4c7bad1707edba3cf783_Out_0_Vector4 = _PivotAndSize;
+            float2 _Property_528dc8a2cbca45a9b6ec87f95cbf90b8_Out_0_Vector2 = _WidthAndHeight;
+            float4 _Property_bb379e706808487f9c2e7c8358feca98_Out_0_Vector4 = _Border;
+            float4 _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4 = _MeshWH;
             float _Split_f4276b026ecb4c69866ab3d1840e320d_R_1_Float = _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4[0];
             float _Split_f4276b026ecb4c69866ab3d1840e320d_G_2_Float = _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4[1];
             float _Split_f4276b026ecb4c69866ab3d1840e320d_B_3_Float = _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4[2];
@@ -1359,35 +1301,6 @@ Shader "Shader Graphs/HMSpriteInDotsOpaque"
         float2 _WidthAndHeight;
         CBUFFER_END
         
-        #if defined(DOTS_INSTANCING_ON)
-        // DOTS instancing definitions
-        UNITY_DOTS_INSTANCING_START(MaterialPropertyMetadata)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _Color)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _UvRect)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _PivotAndSize)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _MeshWH)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _Border)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float, _DrawType)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float2, _WidthAndHeight)
-        UNITY_DOTS_INSTANCING_END(MaterialPropertyMetadata)
-        // DOTS instancing usage macros
-        #define UNITY_ACCESS_HYBRID_INSTANCED_PROP(var, type) UNITY_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(type, var)
-        #elif defined(UNITY_INSTANCING_ENABLED)
-        // Unity instancing definitions
-        UNITY_INSTANCING_BUFFER_START(SGPerInstanceData)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _UvRect)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _PivotAndSize)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _MeshWH)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _Border)
-            UNITY_DEFINE_INSTANCED_PROP(float, _DrawType)
-            UNITY_DEFINE_INSTANCED_PROP(float2, _WidthAndHeight)
-        UNITY_INSTANCING_BUFFER_END(SGPerInstanceData)
-        // Unity instancing usage macros
-        #define UNITY_ACCESS_HYBRID_INSTANCED_PROP(var, type) UNITY_ACCESS_INSTANCED_PROP(SGPerInstanceData, var)
-        #else
-        #define UNITY_ACCESS_HYBRID_INSTANCED_PROP(var, type) var
-        #endif
         
         // Object and Global properties
         SAMPLER(SamplerState_Linear_Repeat);
@@ -1601,10 +1514,10 @@ Shader "Shader Graphs/HMSpriteInDotsOpaque"
         VertexDescription VertexDescriptionFunction(VertexDescriptionInputs IN)
         {
             VertexDescription description = (VertexDescription)0;
-            float4 _Property_2c211408dc3b437ab6f31899b8953b97_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_MeshWH, float4);
-            float4 _Property_1434c3f966ff459a960d8365ca5b6e33_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_PivotAndSize, float4);
-            float2 _Property_c6a9a778594b42d3a377e98c496d93c1_Out_0_Vector2 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_WidthAndHeight, float2);
-            float _Property_00c5f1e862f04770a75337e4dfb72e8d_Out_0_Float = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_DrawType, float);
+            float4 _Property_2c211408dc3b437ab6f31899b8953b97_Out_0_Vector4 = _MeshWH;
+            float4 _Property_1434c3f966ff459a960d8365ca5b6e33_Out_0_Vector4 = _PivotAndSize;
+            float2 _Property_c6a9a778594b42d3a377e98c496d93c1_Out_0_Vector2 = _WidthAndHeight;
+            float _Property_00c5f1e862f04770a75337e4dfb72e8d_Out_0_Float = _DrawType;
             float3 _GetPositionCustomFunction_f377b077379847389a07ce6f6e228d0f_outPosition_3_Vector3;
             GetPosition_float(IN.ObjectSpacePosition, _Property_2c211408dc3b437ab6f31899b8953b97_Out_0_Vector4, _Property_1434c3f966ff459a960d8365ca5b6e33_Out_0_Vector4, _Property_c6a9a778594b42d3a377e98c496d93c1_Out_0_Vector2, _Property_00c5f1e862f04770a75337e4dfb72e8d_Out_0_Float, _GetPositionCustomFunction_f377b077379847389a07ce6f6e228d0f_outPosition_3_Vector3);
             description.Position = _GetPositionCustomFunction_f377b077379847389a07ce6f6e228d0f_outPosition_3_Vector3;
@@ -1633,13 +1546,13 @@ Shader "Shader Graphs/HMSpriteInDotsOpaque"
         {
             SurfaceDescription surface = (SurfaceDescription)0;
             UnityTexture2D _Property_be4f70504cbb4e6b83a752ed03e332fd_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            float4 _Property_691fe2672c4e427e81bf1480bdd91a73_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_UvRect, float4);
-            float _Property_bae20385e6f845c4b611e48bc7744935_Out_0_Float = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_DrawType, float);
+            float4 _Property_691fe2672c4e427e81bf1480bdd91a73_Out_0_Vector4 = _UvRect;
+            float _Property_bae20385e6f845c4b611e48bc7744935_Out_0_Float = _DrawType;
             float4 _UV_9fa10a2b0f354fdf8a75654d82e2e719_Out_0_Vector4 = IN.uv0;
-            float4 _Property_874c47cfc09e4c7bad1707edba3cf783_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_PivotAndSize, float4);
-            float2 _Property_528dc8a2cbca45a9b6ec87f95cbf90b8_Out_0_Vector2 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_WidthAndHeight, float2);
-            float4 _Property_bb379e706808487f9c2e7c8358feca98_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_Border, float4);
-            float4 _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_MeshWH, float4);
+            float4 _Property_874c47cfc09e4c7bad1707edba3cf783_Out_0_Vector4 = _PivotAndSize;
+            float2 _Property_528dc8a2cbca45a9b6ec87f95cbf90b8_Out_0_Vector2 = _WidthAndHeight;
+            float4 _Property_bb379e706808487f9c2e7c8358feca98_Out_0_Vector4 = _Border;
+            float4 _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4 = _MeshWH;
             float _Split_f4276b026ecb4c69866ab3d1840e320d_R_1_Float = _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4[0];
             float _Split_f4276b026ecb4c69866ab3d1840e320d_G_2_Float = _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4[1];
             float _Split_f4276b026ecb4c69866ab3d1840e320d_B_3_Float = _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4[2];
@@ -1913,35 +1826,6 @@ Shader "Shader Graphs/HMSpriteInDotsOpaque"
         float2 _WidthAndHeight;
         CBUFFER_END
         
-        #if defined(DOTS_INSTANCING_ON)
-        // DOTS instancing definitions
-        UNITY_DOTS_INSTANCING_START(MaterialPropertyMetadata)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _Color)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _UvRect)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _PivotAndSize)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _MeshWH)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _Border)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float, _DrawType)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float2, _WidthAndHeight)
-        UNITY_DOTS_INSTANCING_END(MaterialPropertyMetadata)
-        // DOTS instancing usage macros
-        #define UNITY_ACCESS_HYBRID_INSTANCED_PROP(var, type) UNITY_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(type, var)
-        #elif defined(UNITY_INSTANCING_ENABLED)
-        // Unity instancing definitions
-        UNITY_INSTANCING_BUFFER_START(SGPerInstanceData)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _UvRect)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _PivotAndSize)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _MeshWH)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _Border)
-            UNITY_DEFINE_INSTANCED_PROP(float, _DrawType)
-            UNITY_DEFINE_INSTANCED_PROP(float2, _WidthAndHeight)
-        UNITY_INSTANCING_BUFFER_END(SGPerInstanceData)
-        // Unity instancing usage macros
-        #define UNITY_ACCESS_HYBRID_INSTANCED_PROP(var, type) UNITY_ACCESS_INSTANCED_PROP(SGPerInstanceData, var)
-        #else
-        #define UNITY_ACCESS_HYBRID_INSTANCED_PROP(var, type) var
-        #endif
         
         // Object and Global properties
         SAMPLER(SamplerState_Linear_Repeat);
@@ -2155,10 +2039,10 @@ Shader "Shader Graphs/HMSpriteInDotsOpaque"
         VertexDescription VertexDescriptionFunction(VertexDescriptionInputs IN)
         {
             VertexDescription description = (VertexDescription)0;
-            float4 _Property_2c211408dc3b437ab6f31899b8953b97_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_MeshWH, float4);
-            float4 _Property_1434c3f966ff459a960d8365ca5b6e33_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_PivotAndSize, float4);
-            float2 _Property_c6a9a778594b42d3a377e98c496d93c1_Out_0_Vector2 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_WidthAndHeight, float2);
-            float _Property_00c5f1e862f04770a75337e4dfb72e8d_Out_0_Float = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_DrawType, float);
+            float4 _Property_2c211408dc3b437ab6f31899b8953b97_Out_0_Vector4 = _MeshWH;
+            float4 _Property_1434c3f966ff459a960d8365ca5b6e33_Out_0_Vector4 = _PivotAndSize;
+            float2 _Property_c6a9a778594b42d3a377e98c496d93c1_Out_0_Vector2 = _WidthAndHeight;
+            float _Property_00c5f1e862f04770a75337e4dfb72e8d_Out_0_Float = _DrawType;
             float3 _GetPositionCustomFunction_f377b077379847389a07ce6f6e228d0f_outPosition_3_Vector3;
             GetPosition_float(IN.ObjectSpacePosition, _Property_2c211408dc3b437ab6f31899b8953b97_Out_0_Vector4, _Property_1434c3f966ff459a960d8365ca5b6e33_Out_0_Vector4, _Property_c6a9a778594b42d3a377e98c496d93c1_Out_0_Vector2, _Property_00c5f1e862f04770a75337e4dfb72e8d_Out_0_Float, _GetPositionCustomFunction_f377b077379847389a07ce6f6e228d0f_outPosition_3_Vector3);
             description.Position = _GetPositionCustomFunction_f377b077379847389a07ce6f6e228d0f_outPosition_3_Vector3;
@@ -2187,13 +2071,13 @@ Shader "Shader Graphs/HMSpriteInDotsOpaque"
         {
             SurfaceDescription surface = (SurfaceDescription)0;
             UnityTexture2D _Property_be4f70504cbb4e6b83a752ed03e332fd_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            float4 _Property_691fe2672c4e427e81bf1480bdd91a73_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_UvRect, float4);
-            float _Property_bae20385e6f845c4b611e48bc7744935_Out_0_Float = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_DrawType, float);
+            float4 _Property_691fe2672c4e427e81bf1480bdd91a73_Out_0_Vector4 = _UvRect;
+            float _Property_bae20385e6f845c4b611e48bc7744935_Out_0_Float = _DrawType;
             float4 _UV_9fa10a2b0f354fdf8a75654d82e2e719_Out_0_Vector4 = IN.uv0;
-            float4 _Property_874c47cfc09e4c7bad1707edba3cf783_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_PivotAndSize, float4);
-            float2 _Property_528dc8a2cbca45a9b6ec87f95cbf90b8_Out_0_Vector2 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_WidthAndHeight, float2);
-            float4 _Property_bb379e706808487f9c2e7c8358feca98_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_Border, float4);
-            float4 _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_MeshWH, float4);
+            float4 _Property_874c47cfc09e4c7bad1707edba3cf783_Out_0_Vector4 = _PivotAndSize;
+            float2 _Property_528dc8a2cbca45a9b6ec87f95cbf90b8_Out_0_Vector2 = _WidthAndHeight;
+            float4 _Property_bb379e706808487f9c2e7c8358feca98_Out_0_Vector4 = _Border;
+            float4 _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4 = _MeshWH;
             float _Split_f4276b026ecb4c69866ab3d1840e320d_R_1_Float = _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4[0];
             float _Split_f4276b026ecb4c69866ab3d1840e320d_G_2_Float = _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4[1];
             float _Split_f4276b026ecb4c69866ab3d1840e320d_B_3_Float = _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4[2];
@@ -2492,35 +2376,6 @@ Shader "Shader Graphs/HMSpriteInDotsOpaque"
         float2 _WidthAndHeight;
         CBUFFER_END
         
-        #if defined(DOTS_INSTANCING_ON)
-        // DOTS instancing definitions
-        UNITY_DOTS_INSTANCING_START(MaterialPropertyMetadata)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _Color)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _UvRect)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _PivotAndSize)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _MeshWH)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _Border)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float, _DrawType)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float2, _WidthAndHeight)
-        UNITY_DOTS_INSTANCING_END(MaterialPropertyMetadata)
-        // DOTS instancing usage macros
-        #define UNITY_ACCESS_HYBRID_INSTANCED_PROP(var, type) UNITY_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(type, var)
-        #elif defined(UNITY_INSTANCING_ENABLED)
-        // Unity instancing definitions
-        UNITY_INSTANCING_BUFFER_START(SGPerInstanceData)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _UvRect)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _PivotAndSize)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _MeshWH)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _Border)
-            UNITY_DEFINE_INSTANCED_PROP(float, _DrawType)
-            UNITY_DEFINE_INSTANCED_PROP(float2, _WidthAndHeight)
-        UNITY_INSTANCING_BUFFER_END(SGPerInstanceData)
-        // Unity instancing usage macros
-        #define UNITY_ACCESS_HYBRID_INSTANCED_PROP(var, type) UNITY_ACCESS_INSTANCED_PROP(SGPerInstanceData, var)
-        #else
-        #define UNITY_ACCESS_HYBRID_INSTANCED_PROP(var, type) var
-        #endif
         
         // Object and Global properties
         SAMPLER(SamplerState_Linear_Repeat);
@@ -2739,10 +2594,10 @@ Shader "Shader Graphs/HMSpriteInDotsOpaque"
         VertexDescription VertexDescriptionFunction(VertexDescriptionInputs IN)
         {
             VertexDescription description = (VertexDescription)0;
-            float4 _Property_2c211408dc3b437ab6f31899b8953b97_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_MeshWH, float4);
-            float4 _Property_1434c3f966ff459a960d8365ca5b6e33_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_PivotAndSize, float4);
-            float2 _Property_c6a9a778594b42d3a377e98c496d93c1_Out_0_Vector2 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_WidthAndHeight, float2);
-            float _Property_00c5f1e862f04770a75337e4dfb72e8d_Out_0_Float = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_DrawType, float);
+            float4 _Property_2c211408dc3b437ab6f31899b8953b97_Out_0_Vector4 = _MeshWH;
+            float4 _Property_1434c3f966ff459a960d8365ca5b6e33_Out_0_Vector4 = _PivotAndSize;
+            float2 _Property_c6a9a778594b42d3a377e98c496d93c1_Out_0_Vector2 = _WidthAndHeight;
+            float _Property_00c5f1e862f04770a75337e4dfb72e8d_Out_0_Float = _DrawType;
             float3 _GetPositionCustomFunction_f377b077379847389a07ce6f6e228d0f_outPosition_3_Vector3;
             GetPosition_float(IN.ObjectSpacePosition, _Property_2c211408dc3b437ab6f31899b8953b97_Out_0_Vector4, _Property_1434c3f966ff459a960d8365ca5b6e33_Out_0_Vector4, _Property_c6a9a778594b42d3a377e98c496d93c1_Out_0_Vector2, _Property_00c5f1e862f04770a75337e4dfb72e8d_Out_0_Float, _GetPositionCustomFunction_f377b077379847389a07ce6f6e228d0f_outPosition_3_Vector3);
             description.Position = _GetPositionCustomFunction_f377b077379847389a07ce6f6e228d0f_outPosition_3_Vector3;
@@ -2771,15 +2626,15 @@ Shader "Shader Graphs/HMSpriteInDotsOpaque"
         SurfaceDescription SurfaceDescriptionFunction(SurfaceDescriptionInputs IN)
         {
             SurfaceDescription surface = (SurfaceDescription)0;
-            float4 _Property_3056f453a9074d778c4583019576b46f_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_Color, float4);
+            float4 _Property_3056f453a9074d778c4583019576b46f_Out_0_Vector4 = _Color;
             UnityTexture2D _Property_be4f70504cbb4e6b83a752ed03e332fd_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            float4 _Property_691fe2672c4e427e81bf1480bdd91a73_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_UvRect, float4);
-            float _Property_bae20385e6f845c4b611e48bc7744935_Out_0_Float = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_DrawType, float);
+            float4 _Property_691fe2672c4e427e81bf1480bdd91a73_Out_0_Vector4 = _UvRect;
+            float _Property_bae20385e6f845c4b611e48bc7744935_Out_0_Float = _DrawType;
             float4 _UV_9fa10a2b0f354fdf8a75654d82e2e719_Out_0_Vector4 = IN.uv0;
-            float4 _Property_874c47cfc09e4c7bad1707edba3cf783_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_PivotAndSize, float4);
-            float2 _Property_528dc8a2cbca45a9b6ec87f95cbf90b8_Out_0_Vector2 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_WidthAndHeight, float2);
-            float4 _Property_bb379e706808487f9c2e7c8358feca98_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_Border, float4);
-            float4 _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_MeshWH, float4);
+            float4 _Property_874c47cfc09e4c7bad1707edba3cf783_Out_0_Vector4 = _PivotAndSize;
+            float2 _Property_528dc8a2cbca45a9b6ec87f95cbf90b8_Out_0_Vector2 = _WidthAndHeight;
+            float4 _Property_bb379e706808487f9c2e7c8358feca98_Out_0_Vector4 = _Border;
+            float4 _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4 = _MeshWH;
             float _Split_f4276b026ecb4c69866ab3d1840e320d_R_1_Float = _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4[0];
             float _Split_f4276b026ecb4c69866ab3d1840e320d_G_2_Float = _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4[1];
             float _Split_f4276b026ecb4c69866ab3d1840e320d_B_3_Float = _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4[2];
@@ -3045,35 +2900,6 @@ Shader "Shader Graphs/HMSpriteInDotsOpaque"
         float2 _WidthAndHeight;
         CBUFFER_END
         
-        #if defined(DOTS_INSTANCING_ON)
-        // DOTS instancing definitions
-        UNITY_DOTS_INSTANCING_START(MaterialPropertyMetadata)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _Color)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _UvRect)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _PivotAndSize)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _MeshWH)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _Border)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float, _DrawType)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float2, _WidthAndHeight)
-        UNITY_DOTS_INSTANCING_END(MaterialPropertyMetadata)
-        // DOTS instancing usage macros
-        #define UNITY_ACCESS_HYBRID_INSTANCED_PROP(var, type) UNITY_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(type, var)
-        #elif defined(UNITY_INSTANCING_ENABLED)
-        // Unity instancing definitions
-        UNITY_INSTANCING_BUFFER_START(SGPerInstanceData)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _UvRect)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _PivotAndSize)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _MeshWH)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _Border)
-            UNITY_DEFINE_INSTANCED_PROP(float, _DrawType)
-            UNITY_DEFINE_INSTANCED_PROP(float2, _WidthAndHeight)
-        UNITY_INSTANCING_BUFFER_END(SGPerInstanceData)
-        // Unity instancing usage macros
-        #define UNITY_ACCESS_HYBRID_INSTANCED_PROP(var, type) UNITY_ACCESS_INSTANCED_PROP(SGPerInstanceData, var)
-        #else
-        #define UNITY_ACCESS_HYBRID_INSTANCED_PROP(var, type) var
-        #endif
         
         // Object and Global properties
         SAMPLER(SamplerState_Linear_Repeat);
@@ -3287,10 +3113,10 @@ Shader "Shader Graphs/HMSpriteInDotsOpaque"
         VertexDescription VertexDescriptionFunction(VertexDescriptionInputs IN)
         {
             VertexDescription description = (VertexDescription)0;
-            float4 _Property_2c211408dc3b437ab6f31899b8953b97_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_MeshWH, float4);
-            float4 _Property_1434c3f966ff459a960d8365ca5b6e33_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_PivotAndSize, float4);
-            float2 _Property_c6a9a778594b42d3a377e98c496d93c1_Out_0_Vector2 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_WidthAndHeight, float2);
-            float _Property_00c5f1e862f04770a75337e4dfb72e8d_Out_0_Float = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_DrawType, float);
+            float4 _Property_2c211408dc3b437ab6f31899b8953b97_Out_0_Vector4 = _MeshWH;
+            float4 _Property_1434c3f966ff459a960d8365ca5b6e33_Out_0_Vector4 = _PivotAndSize;
+            float2 _Property_c6a9a778594b42d3a377e98c496d93c1_Out_0_Vector2 = _WidthAndHeight;
+            float _Property_00c5f1e862f04770a75337e4dfb72e8d_Out_0_Float = _DrawType;
             float3 _GetPositionCustomFunction_f377b077379847389a07ce6f6e228d0f_outPosition_3_Vector3;
             GetPosition_float(IN.ObjectSpacePosition, _Property_2c211408dc3b437ab6f31899b8953b97_Out_0_Vector4, _Property_1434c3f966ff459a960d8365ca5b6e33_Out_0_Vector4, _Property_c6a9a778594b42d3a377e98c496d93c1_Out_0_Vector2, _Property_00c5f1e862f04770a75337e4dfb72e8d_Out_0_Float, _GetPositionCustomFunction_f377b077379847389a07ce6f6e228d0f_outPosition_3_Vector3);
             description.Position = _GetPositionCustomFunction_f377b077379847389a07ce6f6e228d0f_outPosition_3_Vector3;
@@ -3319,13 +3145,13 @@ Shader "Shader Graphs/HMSpriteInDotsOpaque"
         {
             SurfaceDescription surface = (SurfaceDescription)0;
             UnityTexture2D _Property_be4f70504cbb4e6b83a752ed03e332fd_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            float4 _Property_691fe2672c4e427e81bf1480bdd91a73_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_UvRect, float4);
-            float _Property_bae20385e6f845c4b611e48bc7744935_Out_0_Float = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_DrawType, float);
+            float4 _Property_691fe2672c4e427e81bf1480bdd91a73_Out_0_Vector4 = _UvRect;
+            float _Property_bae20385e6f845c4b611e48bc7744935_Out_0_Float = _DrawType;
             float4 _UV_9fa10a2b0f354fdf8a75654d82e2e719_Out_0_Vector4 = IN.uv0;
-            float4 _Property_874c47cfc09e4c7bad1707edba3cf783_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_PivotAndSize, float4);
-            float2 _Property_528dc8a2cbca45a9b6ec87f95cbf90b8_Out_0_Vector2 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_WidthAndHeight, float2);
-            float4 _Property_bb379e706808487f9c2e7c8358feca98_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_Border, float4);
-            float4 _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_MeshWH, float4);
+            float4 _Property_874c47cfc09e4c7bad1707edba3cf783_Out_0_Vector4 = _PivotAndSize;
+            float2 _Property_528dc8a2cbca45a9b6ec87f95cbf90b8_Out_0_Vector2 = _WidthAndHeight;
+            float4 _Property_bb379e706808487f9c2e7c8358feca98_Out_0_Vector4 = _Border;
+            float4 _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4 = _MeshWH;
             float _Split_f4276b026ecb4c69866ab3d1840e320d_R_1_Float = _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4[0];
             float _Split_f4276b026ecb4c69866ab3d1840e320d_G_2_Float = _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4[1];
             float _Split_f4276b026ecb4c69866ab3d1840e320d_B_3_Float = _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4[2];
@@ -3588,35 +3414,6 @@ Shader "Shader Graphs/HMSpriteInDotsOpaque"
         float2 _WidthAndHeight;
         CBUFFER_END
         
-        #if defined(DOTS_INSTANCING_ON)
-        // DOTS instancing definitions
-        UNITY_DOTS_INSTANCING_START(MaterialPropertyMetadata)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _Color)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _UvRect)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _PivotAndSize)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _MeshWH)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float4, _Border)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float, _DrawType)
-            UNITY_DOTS_INSTANCED_PROP_OVERRIDE_SUPPORTED(float2, _WidthAndHeight)
-        UNITY_DOTS_INSTANCING_END(MaterialPropertyMetadata)
-        // DOTS instancing usage macros
-        #define UNITY_ACCESS_HYBRID_INSTANCED_PROP(var, type) UNITY_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(type, var)
-        #elif defined(UNITY_INSTANCING_ENABLED)
-        // Unity instancing definitions
-        UNITY_INSTANCING_BUFFER_START(SGPerInstanceData)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _UvRect)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _PivotAndSize)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _MeshWH)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _Border)
-            UNITY_DEFINE_INSTANCED_PROP(float, _DrawType)
-            UNITY_DEFINE_INSTANCED_PROP(float2, _WidthAndHeight)
-        UNITY_INSTANCING_BUFFER_END(SGPerInstanceData)
-        // Unity instancing usage macros
-        #define UNITY_ACCESS_HYBRID_INSTANCED_PROP(var, type) UNITY_ACCESS_INSTANCED_PROP(SGPerInstanceData, var)
-        #else
-        #define UNITY_ACCESS_HYBRID_INSTANCED_PROP(var, type) var
-        #endif
         
         // Object and Global properties
         SAMPLER(SamplerState_Linear_Repeat);
@@ -3830,10 +3627,10 @@ Shader "Shader Graphs/HMSpriteInDotsOpaque"
         VertexDescription VertexDescriptionFunction(VertexDescriptionInputs IN)
         {
             VertexDescription description = (VertexDescription)0;
-            float4 _Property_2c211408dc3b437ab6f31899b8953b97_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_MeshWH, float4);
-            float4 _Property_1434c3f966ff459a960d8365ca5b6e33_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_PivotAndSize, float4);
-            float2 _Property_c6a9a778594b42d3a377e98c496d93c1_Out_0_Vector2 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_WidthAndHeight, float2);
-            float _Property_00c5f1e862f04770a75337e4dfb72e8d_Out_0_Float = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_DrawType, float);
+            float4 _Property_2c211408dc3b437ab6f31899b8953b97_Out_0_Vector4 = _MeshWH;
+            float4 _Property_1434c3f966ff459a960d8365ca5b6e33_Out_0_Vector4 = _PivotAndSize;
+            float2 _Property_c6a9a778594b42d3a377e98c496d93c1_Out_0_Vector2 = _WidthAndHeight;
+            float _Property_00c5f1e862f04770a75337e4dfb72e8d_Out_0_Float = _DrawType;
             float3 _GetPositionCustomFunction_f377b077379847389a07ce6f6e228d0f_outPosition_3_Vector3;
             GetPosition_float(IN.ObjectSpacePosition, _Property_2c211408dc3b437ab6f31899b8953b97_Out_0_Vector4, _Property_1434c3f966ff459a960d8365ca5b6e33_Out_0_Vector4, _Property_c6a9a778594b42d3a377e98c496d93c1_Out_0_Vector2, _Property_00c5f1e862f04770a75337e4dfb72e8d_Out_0_Float, _GetPositionCustomFunction_f377b077379847389a07ce6f6e228d0f_outPosition_3_Vector3);
             description.Position = _GetPositionCustomFunction_f377b077379847389a07ce6f6e228d0f_outPosition_3_Vector3;
@@ -3862,13 +3659,13 @@ Shader "Shader Graphs/HMSpriteInDotsOpaque"
         {
             SurfaceDescription surface = (SurfaceDescription)0;
             UnityTexture2D _Property_be4f70504cbb4e6b83a752ed03e332fd_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            float4 _Property_691fe2672c4e427e81bf1480bdd91a73_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_UvRect, float4);
-            float _Property_bae20385e6f845c4b611e48bc7744935_Out_0_Float = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_DrawType, float);
+            float4 _Property_691fe2672c4e427e81bf1480bdd91a73_Out_0_Vector4 = _UvRect;
+            float _Property_bae20385e6f845c4b611e48bc7744935_Out_0_Float = _DrawType;
             float4 _UV_9fa10a2b0f354fdf8a75654d82e2e719_Out_0_Vector4 = IN.uv0;
-            float4 _Property_874c47cfc09e4c7bad1707edba3cf783_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_PivotAndSize, float4);
-            float2 _Property_528dc8a2cbca45a9b6ec87f95cbf90b8_Out_0_Vector2 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_WidthAndHeight, float2);
-            float4 _Property_bb379e706808487f9c2e7c8358feca98_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_Border, float4);
-            float4 _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4 = UNITY_ACCESS_HYBRID_INSTANCED_PROP(_MeshWH, float4);
+            float4 _Property_874c47cfc09e4c7bad1707edba3cf783_Out_0_Vector4 = _PivotAndSize;
+            float2 _Property_528dc8a2cbca45a9b6ec87f95cbf90b8_Out_0_Vector2 = _WidthAndHeight;
+            float4 _Property_bb379e706808487f9c2e7c8358feca98_Out_0_Vector4 = _Border;
+            float4 _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4 = _MeshWH;
             float _Split_f4276b026ecb4c69866ab3d1840e320d_R_1_Float = _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4[0];
             float _Split_f4276b026ecb4c69866ab3d1840e320d_G_2_Float = _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4[1];
             float _Split_f4276b026ecb4c69866ab3d1840e320d_B_3_Float = _Property_14e05098f034486eb8297f7148d9cd2d_Out_0_Vector4[2];

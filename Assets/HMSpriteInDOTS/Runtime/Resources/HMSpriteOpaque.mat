@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_HMSpriteInDOTS
-  m_Shader: {fileID: -6465566751694194690, guid: 25d5882fe05c97448a928f05e30c7239,
+  m_Name: HMSpriteOpaque
+  m_Shader: {fileID: -6465566751694194690, guid: c321a96124c5e6e4b8bd43f14e06caac,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0

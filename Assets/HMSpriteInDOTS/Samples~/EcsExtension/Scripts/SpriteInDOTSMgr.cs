@@ -98,7 +98,7 @@ namespace HM.HMSprite
                 SpriteInDOTSId v;
                 if (!materialMap.ContainsKey(textureCode))
                 {
-                    var mat = HMSprite.CreateNewMaterial(sprite.texture.name);
+                    var mat = HMSprite.CreateMaterial(sprite.texture.name);
                     mat.mainTexture = sprite.texture;
                     var id = CurrentGraphicsSystem.RegisterMaterial(mat);
                     materialMap.Add(textureCode, id);

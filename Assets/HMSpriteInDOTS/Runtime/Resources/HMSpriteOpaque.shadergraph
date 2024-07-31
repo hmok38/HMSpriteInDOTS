@@ -423,6 +423,20 @@
                 },
                 "m_SlotId": 6
             }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "f4276b026ecb4c69866ab3d1840e320d"
+                },
+                "m_SlotId": 4
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "af7a4b9b631d42059fb74a533249c40f"
+                },
+                "m_SlotId": 0
+            }
         }
     ],
     "m_VertexContext": {
@@ -558,7 +572,7 @@
     "m_CustomSlotLabel": "",
     "m_DismissedVersion": 0,
     "m_Precision": 0,
-    "overrideHLSLDeclaration": true,
+    "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 3,
     "m_Hidden": false,
     "m_Value": {
@@ -1481,7 +1495,7 @@
     "m_CustomSlotLabel": "",
     "m_DismissedVersion": 0,
     "m_Precision": 0,
-    "overrideHLSLDeclaration": true,
+    "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 3,
     "m_Hidden": false,
     "m_Value": {
@@ -1549,7 +1563,7 @@
     "m_CustomSlotLabel": "",
     "m_DismissedVersion": 0,
     "m_Precision": 0,
-    "overrideHLSLDeclaration": true,
+    "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 3,
     "m_Hidden": false,
     "m_Value": {
@@ -2053,12 +2067,12 @@
         "m_Id": "a7497e58ef9343fb92559da9a8edb499"
     },
     "m_AllowMaterialOverride": true,
-    "m_SurfaceType": 1,
+    "m_SurfaceType": 0,
     "m_ZTestMode": 4,
     "m_ZWriteControl": 1,
     "m_AlphaMode": 0,
     "m_RenderFace": 2,
-    "m_AlphaClip": false,
+    "m_AlphaClip": true,
     "m_CastShadows": false,
     "m_ReceiveShadows": false,
     "m_SupportsLODCrossFade": true,
@@ -2397,7 +2411,7 @@
     "m_CustomSlotLabel": "",
     "m_DismissedVersion": 0,
     "m_Precision": 0,
-    "overrideHLSLDeclaration": true,
+    "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 3,
     "m_Hidden": false,
     "m_Value": {
@@ -2425,7 +2439,7 @@
     "m_CustomSlotLabel": "",
     "m_DismissedVersion": 0,
     "m_Precision": 0,
-    "overrideHLSLDeclaration": true,
+    "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 3,
     "m_Hidden": false,
     "m_Value": {
@@ -2911,7 +2925,7 @@
     "m_CustomSlotLabel": "",
     "m_DismissedVersion": 0,
     "m_Precision": 0,
-    "overrideHLSLDeclaration": true,
+    "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 3,
     "m_Hidden": false,
     "m_Value": 0.0,
@@ -3100,7 +3114,7 @@
     "m_CustomSlotLabel": "",
     "m_DismissedVersion": 0,
     "m_Precision": 0,
-    "overrideHLSLDeclaration": true,
+    "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 3,
     "m_Hidden": false,
     "m_Value": {

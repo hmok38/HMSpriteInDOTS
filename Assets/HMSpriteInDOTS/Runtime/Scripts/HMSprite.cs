@@ -1,4 +1,3 @@
-using UnityEditor.EditorTools;
 using UnityEngine;
 
 // ReSharper disable once CheckNamespace
@@ -19,13 +18,18 @@ namespace HM.HMSprite
         private static readonly int BorderKey = Shader.PropertyToID("_Border");
         private static readonly int DrawTypeKey = Shader.PropertyToID("_DrawType");
         private static readonly int WidthAndHeightKey = Shader.PropertyToID("_WidthAndHeight");
+        private static readonly int SurfaceKey = Shader.PropertyToID("_Surface");
+        private static readonly int AlphaClipKey = Shader.PropertyToID("_AlphaClip");
 
         private Material _material;
 
         [System.NonSerialized] public bool Baked;
         public SpriteDrawMode spriteDrawMode = SpriteDrawMode.Simple;
-        public RenderType renderType = RenderType.Opaque;
+        [SerializeField] private RenderType renderType = RenderType.Opaque;
+
+
         public Vector2 slicedWidthAndHeight;
+        public float alphaClipThreshold = 0.5f;
 
         public Sprite Sprite
         {
@@ -65,10 +69,9 @@ namespace HM.HMSprite
 
             var material = this.GetComponent<MeshRenderer>().sharedMaterial;
 
-
             if (_material == null || material != _material)
             {
-                _material = HMSprite.CreateNewMaterial();
+                _material = HMSprite.CreateMaterial();
                 this.GetComponent<MeshRenderer>().sharedMaterial = _material;
                 material = _material;
             }
@@ -78,7 +81,7 @@ namespace HM.HMSprite
             {
                 meshFilter.sharedMesh = HMSprite.SpriteMesh;
             }
-            
+
             var uv = new Vector4(0, 0, 1, 1);
             var pivotAndSize = new Vector4(0.5f, 0.5f, 0, 0);
             if (spriteTemp != null && spriteTemp.texture != null)
@@ -95,10 +98,12 @@ namespace HM.HMSprite
             material.color = color;
             material.SetVector(RectKey, uv);
             material.SetVector(PivotAndWhKey, pivotAndSize);
+            var meshRenderer = this.GetComponent<MeshRenderer>();
             if (spriteTemp != null)
-
             {
-                material.SetVector(MeshWhKey, new Vector4(1, 1, spriteTemp.pixelsPerUnit, 0.5f));
+                material.SetVector(MeshWhKey,
+                    new Vector4(1, 1, spriteTemp.pixelsPerUnit,
+                        renderType == RenderType.Opaque ? this.alphaClipThreshold : 0f));
                 material.SetVector(BorderKey, spriteTemp.border);
                 if (slicedWidthAndHeight.x == 0 || slicedWidthAndHeight.y == 0)
                 {
@@ -107,32 +112,57 @@ namespace HM.HMSprite
                 }
 
                 material.SetVector(WidthAndHeightKey, slicedWidthAndHeight);
-                var meshRenderer = this.GetComponent<MeshRenderer>();
 
-                Debug.Log(spriteTemp.name + " before " + meshRenderer.bounds);
+                meshRenderer.ResetLocalBounds();
+                meshRenderer.ResetBounds();
+                // Debug.Log(meshRenderer.bounds + "   " + meshRenderer.localBounds);
+
+
                 meshRenderer.bounds = spriteDrawMode == SpriteDrawMode.Sliced
                     ? new Bounds(this.transform.position,
-                        new Vector3(slicedWidthAndHeight.x, slicedWidthAndHeight.y, 0.1f))
+                        new Vector3(slicedWidthAndHeight.x, slicedWidthAndHeight.y, 0f))
                     : new Bounds(this.transform.position, new Vector3(
-                        spriteTemp.PivotAndUnitSize().z, spriteTemp.PivotAndUnitSize().w, 0.1f
+                        spriteTemp.PivotAndUnitSize().z, spriteTemp.PivotAndUnitSize().w, 0f
                     ));
-              
-                Debug.Log(spriteTemp.name + " after " + meshRenderer.bounds);
-              //  meshRenderer.ResetBounds();
-                Debug.Log(spriteTemp.name + " after2 " + meshRenderer.bounds);
+
+                meshRenderer.localBounds = spriteDrawMode == SpriteDrawMode.Sliced
+                    ? new Bounds(Vector3.zero,
+                        new Vector3(slicedWidthAndHeight.x, slicedWidthAndHeight.y, 0f))
+                    : new Bounds(Vector3.zero, new Vector3(
+                        spriteTemp.PivotAndUnitSize().z, spriteTemp.PivotAndUnitSize().w, 0f
+                    ));
+
+                //Debug.Log(meshRenderer.bounds + "   " + meshRenderer.localBounds);
             }
             else
             {
                 material.SetVector(MeshWhKey, new Vector4(1, 1, 100, 0.5f));
                 material.SetVector(BorderKey, Vector4.zero);
                 material.SetVector(WidthAndHeightKey, new Vector4(1, 1));
-                var meshRenderer = this.GetComponent<MeshRenderer>();
+
                 meshRenderer.ResetLocalBounds();
                 meshRenderer.ResetBounds();
             }
 
-
             material.SetInt(DrawTypeKey, GetDrawTypeValue(this.spriteDrawMode));
+            int newValue = this.renderType == RenderType.Opaque ? 0 : 1;
+            int oldValue = material.GetInt(SurfaceKey);
+            if (oldValue != newValue)
+            {
+                Debug.Log("新旧值不同");
+                material.SetInt(SurfaceKey, newValue);
+                material.SetInt(AlphaClipKey, renderType == RenderType.Opaque ? 1 : 0);
+                if (renderType == RenderType.Opaque)
+                {
+                    material.EnableKeyword("_ALPHATEST_ON");
+                    material.DisableKeyword("_SURFACE_TYPE_TRANSPARENT");
+                }
+                else
+                {
+                    material.DisableKeyword("_ALPHATEST_ON");
+                    material.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
+                }
+            }
         }
 
         private void OnValidate()
@@ -153,17 +183,18 @@ namespace HM.HMSprite
             return 0;
         }
 
-        public static Material CreateNewMaterial(string name = "HMSpriteInDOTS")
+        public static Material CreateMaterial(string name = "HMSpriteOpaque")
         {
             var mat = Resources.Load<Material>(
-                "Shader Graphs_HMSpriteInDOTS"); ////Shader.Find("Shader Graphs/" + nameof(HMSpriteInDOTS)
+                name);
             var material = new Material(mat)
             {
                 name = name,
-                color = Color.cyan
+                color = Color.white
             };
             return material;
         }
+
 
         private static Mesh _spriteMesh;
 
