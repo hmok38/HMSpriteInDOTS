@@ -149,7 +149,7 @@ namespace HM.HMSprite
             int oldValue = material.GetInt(SurfaceKey);
             if (oldValue != newValue)
             {
-                Debug.Log("新旧值不同");
+              //  Debug.Log("新旧值不同");
                 material.SetInt(SurfaceKey, newValue);
                 material.SetInt(AlphaClipKey, renderType == RenderType.Opaque ? 1 : 0);
                 if (renderType == RenderType.Opaque)
