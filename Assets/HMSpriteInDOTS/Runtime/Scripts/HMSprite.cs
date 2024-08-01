@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 // ReSharper disable once CheckNamespace
@@ -16,9 +17,10 @@ namespace HM.HMSprite
         [System.NonSerialized] public Material MaterialOpaque, MaterialTransparent;
         [System.NonSerialized] public bool Baked;
 
-        public SpriteDrawMode spriteDrawMode = SpriteDrawMode.Simple;
-        public Vector2 slicedWidthAndHeight;
+
+        [HideInInspector] public Vector2 slicedWidthAndHeight;
         public float alphaClipThreshold = 0.5f;
+        public SpriteDrawMode spriteDrawMode = SpriteDrawMode.Simple;
         private MeshRenderer _meshRenderer;
         private MeshFilter _meshFilter;
 
@@ -321,10 +323,24 @@ namespace HM.HMSprite
 
 
 #if UNITY_EDITOR
-        public void OnEditorCall()
+        public void OnEditorCallTransformChanged()
         {
             //Debug.Log("OnEditorCall");
             CalculateBound(sprite);
+        }
+
+        public void OnRestLocalScale()
+        {
+            if (this.transform.localScale != Vector3.one)
+            {
+                var transform1 = this.transform;
+                var localS = transform1.localScale;
+                var old = this.slicedWidthAndHeight;
+
+                this.slicedWidthAndHeight = new Vector2(old.x * localS.x, old.y * localS.y);
+                transform1.localScale = Vector3.one;
+                OnValidate();
+            }
         }
 #endif
     }

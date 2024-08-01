@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿using System;
+using UnityEditor;
+using UnityEditor.EditorTools;
 using UnityEngine;
 
 // ReSharper disable once CheckNamespace
@@ -19,10 +21,40 @@ namespace HM.HMSprite.Editor
             if (transform.hasChanged)
             {
                 transform.hasChanged = false;
-                cs.OnEditorCall();
-            }
 
-            // Debug.Log($"OnSceneGUI {transform.name}");
+                cs.OnEditorCallTransformChanged();
+            }
+        }
+
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+            var cs = ((HMSprite)target);
+            if (cs.spriteDrawMode == SpriteDrawMode.Sliced)
+            {
+                EditorGUILayout.Space();
+                EditorGUILayout.BeginVertical(GUI.skin.textArea);
+                EditorGUILayout.LabelField("---9宫格设置----");
+                EditorGUILayout.Space();
+                var old = cs.slicedWidthAndHeight;
+                cs.slicedWidthAndHeight = EditorGUILayout.Vector2Field("9宫格宽高", cs.slicedWidthAndHeight);
+
+                EditorGUILayout.Space();
+                EditorGUILayout.EndVertical();
+
+                if (old != cs.slicedWidthAndHeight)
+                {
+                    cs.OnValidate();
+                }
+
+                if (cs.transform.localScale != Vector3.one)
+                {
+                    if (GUILayout.Button("将Scale转为宽高"))
+                    {
+                        cs.OnRestLocalScale();
+                    }
+                }
+            }
         }
     }
 

@@ -122,7 +122,114 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!21 &133092544
+--- !u!21 &34078918
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HMSpriteTransparent
+  m_Shader: {fileID: -6465566751694194690, guid: cad4f94b5e994c54b907e9446fc65261,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 8711939763936270973, guid: 374da11da09ce344ba6de689b523dd91,
+          type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _DrawType: 0
+    - _QueueControl: -1
+    - _QueueOffset: 0
+    m_Colors:
+    - _Border: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 0.9245283, g: 0.5974546, b: 0.5974546, a: 0.72156864}
+    - _MeshWH: {r: 1, g: 1, b: 100, a: 0}
+    - _PivotAndSize: {r: 0.5, g: 0, b: 1.28, a: 1.28}
+    - _UvRect: {r: 0.2578125, g: 0.2578125, b: 0.3828125, a: 0.3828125}
+    - _WidthAndHeight: {r: 1.28, g: 1.28, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!21 &133089041
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HMSpriteOpaque
+  m_Shader: {fileID: -6465566751694194690, guid: c321a96124c5e6e4b8bd43f14e06caac,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: cf5f26b017098464b96cc333f0710c4f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _DrawType: 1
+    - _QueueControl: -1
+    - _QueueOffset: 0
+    m_Colors:
+    - _Border: {r: 55, g: 31, b: 42, a: 37}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _MeshWH: {r: 1, g: 1, b: 100, a: 0.9}
+    - _PivotAndSize: {r: 0.5, g: 0.5, b: 1.73, a: 0.74}
+    - _UvRect: {r: 0, g: 0, b: 1, a: 1}
+    - _WidthAndHeight: {r: 6.45, g: 2.4596238, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!21 &295029198
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
@@ -165,7 +272,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _DrawType: 1
-    - _QueueControl: 0
+    - _QueueControl: -1
     - _QueueOffset: 0
     m_Colors:
     - _Border: {r: 55, g: 31, b: 42, a: 37}
@@ -209,9 +316,9 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: cf5f26b017098464b96cc333f0710c4f, type: 3}
   color: {r: 1, g: 1, b: 1, a: 0.6666667}
   renderType: 1
-  spriteDrawMode: 1
   slicedWidthAndHeight: {x: 2.84, y: 0.77}
   alphaClipThreshold: 0.5
+  spriteDrawMode: 1
 --- !u!33 &342117654
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -240,7 +347,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 133092544}
+  - {fileID: 295029198}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -442,113 +549,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!21 &633801457
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: HMSpriteOpaque
-  m_Shader: {fileID: -6465566751694194690, guid: c321a96124c5e6e4b8bd43f14e06caac,
-    type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 8711939763936270973, guid: 374da11da09ce344ba6de689b523dd91,
-          type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_Lightmaps:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_LightmapsInd:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_ShadowMasks:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _DrawType: 0
-    - _QueueControl: 0
-    - _QueueOffset: 0
-    m_Colors:
-    - _Border: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _MeshWH: {r: 1, g: 1, b: 100, a: 0.5}
-    - _PivotAndSize: {r: 0.5, g: 0, b: 1.28, a: 1.28}
-    - _UvRect: {r: 0.2578125, g: 0.2578125, b: 0.3828125, a: 0.3828125}
-    - _WidthAndHeight: {r: 1.28, g: 1.28, b: 0, a: 0}
-  m_BuildTextureStacks: []
---- !u!21 &641462677
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: HMSpriteOpaque
-  m_Shader: {fileID: -6465566751694194690, guid: c321a96124c5e6e4b8bd43f14e06caac,
-    type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: cf5f26b017098464b96cc333f0710c4f, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_Lightmaps:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_LightmapsInd:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_ShadowMasks:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _DrawType: 1
-    - _QueueControl: 0
-    - _QueueOffset: 0
-    m_Colors:
-    - _Border: {r: 55, g: 31, b: 42, a: 37}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _MeshWH: {r: 1, g: 1, b: 100, a: 0.9}
-    - _PivotAndSize: {r: 0.5, g: 0.5, b: 1.73, a: 0.74}
-    - _UvRect: {r: 0, g: 0, b: 1, a: 1}
-    - _WidthAndHeight: {r: 2.84, g: 0.77, b: 0, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &804501464
 GameObject:
   m_ObjectHideFlags: 0
@@ -716,9 +716,9 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: e50b37e5424d56e48a92749e600279ad, type: 3}
   color: {r: 0.9245283, g: 0.5974546, b: 0.5974546, a: 0.72156864}
   renderType: 1
-  spriteDrawMode: 0
   slicedWidthAndHeight: {x: 1.28, y: 1.28}
   alphaClipThreshold: 0.5
+  spriteDrawMode: 0
 --- !u!33 &810761639
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -747,7 +747,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1628820411}
+  - {fileID: 34078918}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -983,9 +983,9 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: cf5f26b017098464b96cc333f0710c4f, type: 3}
   color: {r: 1, g: 1, b: 1, a: 1}
   renderType: 0
-  spriteDrawMode: 0
   slicedWidthAndHeight: {x: 11.73, y: 0.74}
   alphaClipThreshold: 0.5
+  spriteDrawMode: 0
 --- !u!33 &1152995730
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1014,7 +1014,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1961978286}
+  - {fileID: 1964264031}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1051,7 +1051,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &1628820411
+--- !u!21 &1159919898
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
@@ -1060,6 +1060,59 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: HMSpriteTransparent
   m_Shader: {fileID: -6465566751694194690, guid: cad4f94b5e994c54b907e9446fc65261,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: cf5f26b017098464b96cc333f0710c4f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _DrawType: 0
+    - _QueueControl: -1
+    - _QueueOffset: 0
+    m_Colors:
+    - _Border: {r: 55, g: 31, b: 42, a: 37}
+    - _Color: {r: 1, g: 1, b: 1, a: 0.68235296}
+    - _MeshWH: {r: 1, g: 1, b: 100, a: 0}
+    - _PivotAndSize: {r: 0.5, g: 0.5, b: 1.73, a: 0.74}
+    - _UvRect: {r: 0, g: 0, b: 1, a: 1}
+    - _WidthAndHeight: {r: 11.73, g: 0.74, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!21 &1449971020
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HMSpriteOpaque
+  m_Shader: {fileID: -6465566751694194690, guid: c321a96124c5e6e4b8bd43f14e06caac,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -1095,12 +1148,12 @@ Material:
     m_Ints: []
     m_Floats:
     - _DrawType: 0
-    - _QueueControl: 0
+    - _QueueControl: -1
     - _QueueOffset: 0
     m_Colors:
     - _Border: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 0.9245283, g: 0.5974546, b: 0.5974546, a: 0.72156864}
-    - _MeshWH: {r: 1, g: 1, b: 100, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _MeshWH: {r: 1, g: 1, b: 100, a: 0.5}
     - _PivotAndSize: {r: 0.5, g: 0, b: 1.28, a: 1.28}
     - _UvRect: {r: 0.2578125, g: 0.2578125, b: 0.3828125, a: 0.3828125}
     - _WidthAndHeight: {r: 1.28, g: 1.28, b: 0, a: 0}
@@ -1257,7 +1310,7 @@ Mesh:
     m_UVInfo: 0
   m_LocalAABB:
     m_Center: {x: -0, y: -0, z: 0}
-    m_Extent: {x: 1.42, y: 0.385, z: 0}
+    m_Extent: {x: 3.225, y: 1.2298119, z: 0}
   m_MeshUsageFlags: 0
   m_CookingOptions: 30
   m_BakedConvexCollisionMesh: 
@@ -1407,59 +1460,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!21 &1778149090
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: HMSpriteTransparent
-  m_Shader: {fileID: -6465566751694194690, guid: cad4f94b5e994c54b907e9446fc65261,
-    type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: cf5f26b017098464b96cc333f0710c4f, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_Lightmaps:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_LightmapsInd:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_ShadowMasks:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _DrawType: 0
-    - _QueueControl: 0
-    - _QueueOffset: 0
-    m_Colors:
-    - _Border: {r: 55, g: 31, b: 42, a: 37}
-    - _Color: {r: 1, g: 1, b: 1, a: 0.68235296}
-    - _MeshWH: {r: 1, g: 1, b: 100, a: 0}
-    - _PivotAndSize: {r: 0.5, g: 0.5, b: 1.73, a: 0.74}
-    - _UvRect: {r: 0, g: 0, b: 1, a: 1}
-    - _WidthAndHeight: {r: 11.73, g: 0.74, b: 0, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &1890098257
 GameObject:
   m_ObjectHideFlags: 0
@@ -1494,9 +1494,9 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: cf5f26b017098464b96cc333f0710c4f, type: 3}
   color: {r: 1, g: 1, b: 1, a: 1}
   renderType: 0
-  spriteDrawMode: 1
-  slicedWidthAndHeight: {x: 2.84, y: 0.77}
+  slicedWidthAndHeight: {x: 6.45, y: 2.4596238}
   alphaClipThreshold: 0.9
+  spriteDrawMode: 1
 --- !u!33 &1890098259
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1525,7 +1525,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 641462677}
+  - {fileID: 133089041}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1556,13 +1556,13 @@ Transform:
   m_GameObject: {fileID: 1890098257}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.02, y: 0.99, z: 0}
+  m_LocalPosition: {x: -0.87, y: 2.76, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &1961978286
+--- !u!21 &1964264031
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
@@ -1605,7 +1605,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _DrawType: 0
-    - _QueueControl: 0
+    - _QueueControl: -1
     - _QueueOffset: 0
     m_Colors:
     - _Border: {r: 55, g: 31, b: 42, a: 37}
@@ -1679,9 +1679,9 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: e50b37e5424d56e48a92749e600279ad, type: 3}
   color: {r: 1, g: 1, b: 1, a: 1}
   renderType: 0
-  spriteDrawMode: 0
   slicedWidthAndHeight: {x: 1.28, y: 1.28}
   alphaClipThreshold: 0.5
+  spriteDrawMode: 0
 --- !u!33 &2009160194
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1710,7 +1710,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 633801457}
+  - {fileID: 1449971020}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1766,9 +1766,9 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: cf5f26b017098464b96cc333f0710c4f, type: 3}
   color: {r: 1, g: 1, b: 1, a: 0.68235296}
   renderType: 1
-  spriteDrawMode: 0
   slicedWidthAndHeight: {x: 11.73, y: 0.74}
   alphaClipThreshold: 0.99
+  spriteDrawMode: 0
 --- !u!33 &2108845452
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1797,7 +1797,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1778149090}
+  - {fileID: 1159919898}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
