@@ -18,14 +18,41 @@ namespace HM.HMSprite
         private static readonly int BorderKey = Shader.PropertyToID("_Border");
         private static readonly int DrawTypeKey = Shader.PropertyToID("_DrawType");
         private static readonly int WidthAndHeightKey = Shader.PropertyToID("_WidthAndHeight");
-        private static readonly int SurfaceKey = Shader.PropertyToID("_Surface");
-        private static readonly int AlphaClipKey = Shader.PropertyToID("_AlphaClip");
-        private static readonly int ZWriteKey = Shader.PropertyToID("_ZWrite");
-        private static readonly int QueueControlKey = Shader.PropertyToID("_QueueControl");
-        private static readonly int SrcBlendKey = Shader.PropertyToID("_SrcBlend");
-        private static readonly int DstBlendKey = Shader.PropertyToID("_DstBlend");
-        private Material _material;
+  
+        
+        private static Material _globalMaterialOpaqueRes;
+        public static Material GlobalMaterialOpaqueRes
+        {
+            get
+            {
+                if (_globalMaterialOpaqueRes == null)
+                {
+                    _globalMaterialOpaqueRes = Resources.Load<Material>("HMSpriteOpaque");
+                }
 
+                return _globalMaterialOpaqueRes;
+            }
+            set => _globalMaterialOpaqueRes = value;
+        }
+
+        private static Material _globalMaterialTransparentRes;
+
+        public static Material GlobalMaterialTransparentRes
+        {
+            get
+            {
+                if ( _globalMaterialTransparentRes == null)
+                {
+                    _globalMaterialTransparentRes =
+                        Resources.Load<Material>("HMSpriteTransparent");
+                }
+
+                return _globalMaterialTransparentRes;
+            }
+            set => _globalMaterialTransparentRes = value;
+        }
+
+        [System.NonSerialized] public Material MaterialOpaque, MaterialTransparent;
         [System.NonSerialized] public bool Baked;
         public SpriteDrawMode spriteDrawMode = SpriteDrawMode.Simple;
         [SerializeField] private RenderType renderType = RenderType.Opaque;
@@ -72,11 +99,39 @@ namespace HM.HMSprite
 
             var material = this.GetComponent<MeshRenderer>().sharedMaterial;
 
-            if (_material == null || material != _material)
+            if (material == null
+                || (this.renderType == RenderType.Opaque
+                    ? (material != MaterialOpaque)
+                    : (material != MaterialTransparent)))
             {
-                _material = HMSprite.CreateMaterial();
-                this.GetComponent<MeshRenderer>().sharedMaterial = _material;
-                material = _material;
+                if (this.renderType == RenderType.Opaque)
+                {
+                    if (MaterialOpaque == null)
+                    {
+                        MaterialOpaque = new Material(GlobalMaterialOpaqueRes)
+                        {
+                            name = GlobalMaterialOpaqueRes.name,
+                            color = Color.white
+                        };
+                    }
+
+                    this.GetComponent<MeshRenderer>().sharedMaterial = MaterialOpaque;
+                }
+                else if (this.renderType == RenderType.Transparent)
+                {
+                    if (MaterialTransparent == null)
+                    {
+                        MaterialTransparent = new Material(GlobalMaterialTransparentRes)
+                        {
+                            name = GlobalMaterialTransparentRes.name,
+                            color = Color.white
+                        };
+                    }
+
+                    this.GetComponent<MeshRenderer>().sharedMaterial = MaterialTransparent;
+                }
+                
+                material = this.GetComponent<MeshRenderer>().sharedMaterial;
             }
 
             var meshFilter = this.GetComponent<MeshFilter>();
@@ -116,11 +171,6 @@ namespace HM.HMSprite
 
                 material.SetVector(WidthAndHeightKey, slicedWidthAndHeight);
 
-                meshRenderer.ResetLocalBounds();
-                meshRenderer.ResetBounds();
-                // Debug.Log(meshRenderer.bounds + "   " + meshRenderer.localBounds);
-
-
                 meshRenderer.bounds = spriteDrawMode == SpriteDrawMode.Sliced
                     ? new Bounds(this.transform.position,
                         new Vector3(slicedWidthAndHeight.x, slicedWidthAndHeight.y, 0f))
@@ -134,8 +184,6 @@ namespace HM.HMSprite
                     : new Bounds(Vector3.zero, new Vector3(
                         spriteTemp.PivotAndUnitSize().z, spriteTemp.PivotAndUnitSize().w, 0f
                     ));
-
-                //Debug.Log(meshRenderer.bounds + "   " + meshRenderer.localBounds);
             }
             else
             {
@@ -148,60 +196,6 @@ namespace HM.HMSprite
             }
 
             material.SetInt(DrawTypeKey, GetDrawTypeValue(this.spriteDrawMode));
-            // int newValue = this.renderType == RenderType.Opaque ? 0 : 1;
-            // int oldValue = material.GetInt(SurfaceKey);
-            // if (oldValue != newValue)
-            // {
-            //   //  Debug.Log("新旧值不同");
-            //     material.SetInt(SurfaceKey, newValue);
-            //     material.SetInt(AlphaClipKey, renderType == RenderType.Opaque ? 1 : 0);
-            //     if (renderType == RenderType.Opaque)
-            //     {
-            //         material.SetInt(ZWriteKey,1);
-            //         material.SetInt(QueueControlKey,1);
-            //         material.renderQueue = 2450;
-            //         material.SetInt(SrcBlendKey,(int)UnityEngine.Rendering.BlendMode.One);
-            //         material.SetInt(DstBlendKey,(int)UnityEngine.Rendering.BlendMode.Zero);
-            //         material.EnableKeyword("_ALPHATEST_ON");
-            //         material.DisableKeyword("_SURFACE_TYPE_TRANSPARENT");
-            //     }
-            //     else
-            //     {
-            //         material.SetInt(ZWriteKey,0);
-            //         material.SetInt(QueueControlKey,1);
-            //         material.renderQueue = 3000;
-            //         
-            //         material.SetInt(SrcBlendKey,(int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-            //         material.SetInt(DstBlendKey,(int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-            //         
-            //         material.DisableKeyword("_ALPHATEST_ON");
-            //         material.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
-            //     }
-            // }
-            material.SetInt(SurfaceKey, this.renderType == RenderType.Opaque ? 0 : 1);
-            material.SetInt(AlphaClipKey, renderType == RenderType.Opaque ? 1 : 0);
-            if (renderType == RenderType.Opaque)
-            {
-                material.SetInt(ZWriteKey, 1);
-                material.SetInt(QueueControlKey, 1);
-                material.renderQueue = 2450;
-                material.SetInt(SrcBlendKey, (int)UnityEngine.Rendering.BlendMode.One);
-                material.SetInt(DstBlendKey, (int)UnityEngine.Rendering.BlendMode.Zero);
-                material.EnableKeyword("_ALPHATEST_ON");
-                material.DisableKeyword("_SURFACE_TYPE_TRANSPARENT");
-            }
-            else
-            {
-                material.SetInt(ZWriteKey, 0);
-                material.SetInt(QueueControlKey, 1);
-                material.renderQueue = 3000;
-
-                material.SetInt(SrcBlendKey, (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-                material.SetInt(DstBlendKey, (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-
-                material.DisableKeyword("_ALPHATEST_ON");
-                material.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
-            }
         }
 
         private void OnValidate()
