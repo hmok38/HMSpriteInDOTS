@@ -198,7 +198,7 @@ namespace HM.HMSprite
             material.SetInt(DrawTypeKey, GetDrawTypeValue(this.spriteDrawMode));
         }
 
-        private void OnValidate()
+        public void OnValidate()
         {
             Baked = false;
             SetSprite(sprite);

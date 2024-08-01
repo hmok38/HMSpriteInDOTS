@@ -3,7 +3,7 @@
 // ReSharper disable once CheckNamespace
 namespace HM.HMSprite
 {
-    public static class SpriteExtend
+    public static class SpriteExtension
     {
         public static Vector4 UVRect(this Sprite sprite)
         {
