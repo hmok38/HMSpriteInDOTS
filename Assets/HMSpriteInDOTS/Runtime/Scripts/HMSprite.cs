@@ -12,54 +12,15 @@ namespace HM.HMSprite
     {
         [SerializeField] public Sprite sprite;
         [SerializeField] public Color color = Color.white;
-        private static readonly int PivotAndWhKey = Shader.PropertyToID("_PivotAndSize");
-        private static readonly int RectKey = Shader.PropertyToID("_UvRect");
-        private static readonly int MeshWhKey = Shader.PropertyToID("_MeshWH");
-        private static readonly int BorderKey = Shader.PropertyToID("_Border");
-        private static readonly int DrawTypeKey = Shader.PropertyToID("_DrawType");
-        private static readonly int WidthAndHeightKey = Shader.PropertyToID("_WidthAndHeight");
-  
-        
-        private static Material _globalMaterialOpaqueRes;
-        public static Material GlobalMaterialOpaqueRes
-        {
-            get
-            {
-                if (_globalMaterialOpaqueRes == null)
-                {
-                    _globalMaterialOpaqueRes = Resources.Load<Material>("HMSpriteOpaque");
-                }
-
-                return _globalMaterialOpaqueRes;
-            }
-            set => _globalMaterialOpaqueRes = value;
-        }
-
-        private static Material _globalMaterialTransparentRes;
-
-        public static Material GlobalMaterialTransparentRes
-        {
-            get
-            {
-                if ( _globalMaterialTransparentRes == null)
-                {
-                    _globalMaterialTransparentRes =
-                        Resources.Load<Material>("HMSpriteTransparent");
-                }
-
-                return _globalMaterialTransparentRes;
-            }
-            set => _globalMaterialTransparentRes = value;
-        }
-
+        [SerializeField] private RenderType renderType = RenderType.Opaque;
         [System.NonSerialized] public Material MaterialOpaque, MaterialTransparent;
         [System.NonSerialized] public bool Baked;
+
         public SpriteDrawMode spriteDrawMode = SpriteDrawMode.Simple;
-        [SerializeField] private RenderType renderType = RenderType.Opaque;
-
-
         public Vector2 slicedWidthAndHeight;
         public float alphaClipThreshold = 0.5f;
+        private MeshRenderer _meshRenderer;
+        private MeshFilter _meshFilter;
 
         public Sprite Sprite
         {
@@ -86,7 +47,9 @@ namespace HM.HMSprite
         void Start()
         {
             if (Baked) return;
-            this.GetComponent<MeshRenderer>().sharedMaterial = null;
+            if (this._meshRenderer == null) this._meshRenderer = this.GetComponent<MeshRenderer>();
+            if (this._meshFilter == null) this._meshFilter = this.GetComponent<MeshFilter>();
+            this._meshRenderer.sharedMaterial = null;
             SetSprite(sprite);
         }
 
@@ -95,9 +58,10 @@ namespace HM.HMSprite
         {
             if (Baked) return;
 
-            // Debug.Log(spriteTemp.name + " " + spriteTemp.bounds + " " + spriteTemp.border + " " + spriteTemp.rect);
+            if (this._meshRenderer == null) this._meshRenderer = this.GetComponent<MeshRenderer>();
+            if (this._meshFilter == null) this._meshFilter = this.GetComponent<MeshFilter>();
 
-            var material = this.GetComponent<MeshRenderer>().sharedMaterial;
+            var material = this._meshRenderer.sharedMaterial;
 
             if (material == null
                 || (this.renderType == RenderType.Opaque
@@ -115,7 +79,7 @@ namespace HM.HMSprite
                         };
                     }
 
-                    this.GetComponent<MeshRenderer>().sharedMaterial = MaterialOpaque;
+                    this._meshRenderer.sharedMaterial = MaterialOpaque;
                 }
                 else if (this.renderType == RenderType.Transparent)
                 {
@@ -128,13 +92,13 @@ namespace HM.HMSprite
                         };
                     }
 
-                    this.GetComponent<MeshRenderer>().sharedMaterial = MaterialTransparent;
+                    this._meshRenderer.sharedMaterial = MaterialTransparent;
                 }
-                
-                material = this.GetComponent<MeshRenderer>().sharedMaterial;
+
+                material = this._meshRenderer.sharedMaterial;
             }
 
-            var meshFilter = this.GetComponent<MeshFilter>();
+            var meshFilter = this._meshFilter;
             if (meshFilter.sharedMesh == null)
             {
                 meshFilter.sharedMesh = HMSprite.SpriteMesh;
@@ -156,7 +120,7 @@ namespace HM.HMSprite
             material.color = color;
             material.SetVector(RectKey, uv);
             material.SetVector(PivotAndWhKey, pivotAndSize);
-            var meshRenderer = this.GetComponent<MeshRenderer>();
+            var meshRenderer = this._meshRenderer;
             if (spriteTemp != null)
             {
                 material.SetVector(MeshWhKey,
@@ -170,38 +134,120 @@ namespace HM.HMSprite
                 }
 
                 material.SetVector(WidthAndHeightKey, slicedWidthAndHeight);
-
-                meshRenderer.bounds = spriteDrawMode == SpriteDrawMode.Sliced
-                    ? new Bounds(this.transform.position,
-                        new Vector3(slicedWidthAndHeight.x, slicedWidthAndHeight.y, 0f))
-                    : new Bounds(this.transform.position, new Vector3(
-                        spriteTemp.PivotAndUnitSize().z, spriteTemp.PivotAndUnitSize().w, 0f
-                    ));
-
-                meshRenderer.localBounds = spriteDrawMode == SpriteDrawMode.Sliced
-                    ? new Bounds(Vector3.zero,
-                        new Vector3(slicedWidthAndHeight.x, slicedWidthAndHeight.y, 0f))
-                    : new Bounds(Vector3.zero, new Vector3(
-                        spriteTemp.PivotAndUnitSize().z, spriteTemp.PivotAndUnitSize().w, 0f
-                    ));
             }
             else
             {
                 material.SetVector(MeshWhKey, new Vector4(1, 1, 100, 0.5f));
                 material.SetVector(BorderKey, Vector4.zero);
                 material.SetVector(WidthAndHeightKey, new Vector4(1, 1));
+            }
 
+            CalculateBound(spriteTemp);
+            material.SetInt(DrawTypeKey, GetDrawTypeValue(this.spriteDrawMode));
+        }
+
+        private void CalculateBound(Sprite spriteTemp)
+        {
+            var meshRenderer = this._meshRenderer;
+            if (spriteTemp != null)
+            {
+                var pivotAndSize = spriteTemp.PivotAndUnitSize();
+
+                Vector3 offset = new Vector3(
+                    -(pivotAndSize.x - 0.5f) *
+                    (spriteDrawMode == SpriteDrawMode.Sliced ? slicedWidthAndHeight.x : pivotAndSize.z),
+                    -(pivotAndSize.y - 0.5f) *
+                    (spriteDrawMode == SpriteDrawMode.Sliced ? slicedWidthAndHeight.y : pivotAndSize.w));
+
+                Vector3 scale = transform.lossyScale;
+                meshRenderer.bounds = spriteDrawMode == SpriteDrawMode.Sliced
+                    ? new Bounds(this.transform.position + new Vector3(offset.x * scale.x, offset.y * scale.y),
+                        new Vector3(slicedWidthAndHeight.x * scale.x, slicedWidthAndHeight.y * scale.y, 0f))
+                    : new Bounds(this.transform.position + new Vector3(offset.x * scale.x, offset.y * scale.y),
+                        new Vector3(
+                            pivotAndSize.z * scale.x, pivotAndSize.w * scale.y, 0f
+                        ));
+                //var bounds = meshRenderer.bounds;
+                //Debug.DrawLine(bounds.min, bounds.max, Color.red, 1000);
+                meshRenderer.localBounds = spriteDrawMode == SpriteDrawMode.Sliced
+                    ? new Bounds(offset,
+                        new Vector3(slicedWidthAndHeight.x, slicedWidthAndHeight.y, 0f))
+                    : new Bounds(offset, new Vector3(
+                        pivotAndSize.z, pivotAndSize.w, 0f
+                    ));
+            }
+            else
+            {
                 meshRenderer.ResetLocalBounds();
                 meshRenderer.ResetBounds();
             }
-
-            material.SetInt(DrawTypeKey, GetDrawTypeValue(this.spriteDrawMode));
         }
 
         public void OnValidate()
         {
             Baked = false;
             SetSprite(sprite);
+        }
+
+        #region **********Static  Method*****************************************
+
+        public static readonly int PivotAndWhKey = Shader.PropertyToID("_PivotAndSize");
+        public static readonly int RectKey = Shader.PropertyToID("_UvRect");
+        public static readonly int MeshWhKey = Shader.PropertyToID("_MeshWH");
+        public static readonly int BorderKey = Shader.PropertyToID("_Border");
+        public static readonly int DrawTypeKey = Shader.PropertyToID("_DrawType");
+        public static readonly int WidthAndHeightKey = Shader.PropertyToID("_WidthAndHeight");
+
+
+        private static Material _globalMaterialOpaqueRes;
+
+        public static Material GlobalMaterialOpaqueRes
+        {
+            get
+            {
+                if (_globalMaterialOpaqueRes == null)
+                {
+                    _globalMaterialOpaqueRes = Resources.Load<Material>("HMSpriteOpaque");
+                }
+
+                return _globalMaterialOpaqueRes;
+            }
+            set => _globalMaterialOpaqueRes = value;
+        }
+
+        private static Material _globalMaterialTransparentRes;
+
+        public static Material GlobalMaterialTransparentRes
+        {
+            get
+            {
+                if (_globalMaterialTransparentRes == null)
+                {
+                    _globalMaterialTransparentRes =
+                        Resources.Load<Material>("HMSpriteTransparent");
+                }
+
+                return _globalMaterialTransparentRes;
+            }
+            set => _globalMaterialTransparentRes = value;
+        }
+
+        private static Mesh _spriteMesh;
+
+        /// <summary>
+        /// 获取mesh
+        /// </summary>
+        public static Mesh SpriteMesh
+        {
+            get
+            {
+                if (_spriteMesh == null)
+                {
+                    _spriteMesh = CreateQuadMesh();
+                }
+
+                return _spriteMesh;
+            }
         }
 
         public static int GetDrawTypeValue(SpriteDrawMode spriteDrawMode)
@@ -228,24 +274,6 @@ namespace HM.HMSprite
             return material;
         }
 
-
-        private static Mesh _spriteMesh;
-
-        /// <summary>
-        /// 获取mesh
-        /// </summary>
-        public static Mesh SpriteMesh
-        {
-            get
-            {
-                if (_spriteMesh == null)
-                {
-                    _spriteMesh = CreateQuadMesh();
-                }
-
-                return _spriteMesh;
-            }
-        }
 
         public static Mesh CreateQuadMesh()
         {
@@ -288,6 +316,17 @@ namespace HM.HMSprite
             mesh.uv = uv;
             return mesh;
         }
+
+        #endregion
+
+
+#if UNITY_EDITOR
+        public void OnEditorCall()
+        {
+            //Debug.Log("OnEditorCall");
+            CalculateBound(sprite);
+        }
+#endif
     }
 
 
@@ -296,51 +335,4 @@ namespace HM.HMSprite
         Opaque,
         Transparent
     }
-
-
-#if UNITY_EDITOR
-    // [EditorTool("Platform Tool")]
-    // public class HMSpriteEditor : UnityEditor.EditorTools.EditorTool
-    // {
-    // }
-
-
-    // [UnityEditor.CustomEditor(typeof(HMSprite))]
-    // public class HMSpriteEditor : UnityEditor.Editor
-    // {
-    //     private void OnSceneGUI()
-    //     {
-    //         HMSprite t = (target as HMSprite );
-    //         if (Event.current.type == EventType.Repaint)
-    //         {
-    //             Transform transform = ((HMSprite)target).transform;
-    //             Handles.color = Handles.xAxisColor;
-    //             Handles.RectangleHandleCap(
-    //                 0,
-    //                 transform.position + new Vector3(3f, 0f, 0f),
-    //                 transform.rotation * Quaternion.LookRotation(Vector3.right),
-    //                 1,
-    //                 EventType.Repaint
-    //             );
-    //             Handles.color = Handles.yAxisColor;
-    //             Handles.RectangleHandleCap(
-    //                 0,
-    //                 transform.position + new Vector3(0f, 3f, 0f),
-    //                 transform.rotation * Quaternion.LookRotation(Vector3.up),
-    //                 1,
-    //                 EventType.Repaint
-    //             );
-    //             Handles.color = Handles.zAxisColor;
-    //             Handles.RectangleHandleCap(
-    //                 0,
-    //                 transform.position + new Vector3(0f, 0f, 3f),
-    //                 transform.rotation * Quaternion.LookRotation(Vector3.forward),
-    //                 1,
-    //                 EventType.Repaint
-    //             );
-    //         }
-    //         
-    //     }
-    // }
-#endif
 }

@@ -1,13 +1,39 @@
 ﻿using UnityEditor;
+using UnityEngine;
 
-namespace HM.HMSprite.HMSpriteInDOTS.Runtime.Editor
+// ReSharper disable once CheckNamespace
+namespace HM.HMSprite.Editor
 {
-    public class HMSpriteEditorTool
+    [CustomEditor(typeof(HM.HMSprite.HMSprite))]
+    public class HmSpriteEditor : UnityEditor.Editor
     {
-        [UnityEditor.MenuItem("HM/HMSprite/创建帧动画配置表(HMFrameAnimationSO)")]
-        public static void CreatFrameAnimationSO()
+        private void OnSceneGUI()
         {
-            EditorUtility.DisplayDialog("如何创建动画配置表", "在Project窗口选择要放置的目录,然后右键->create->HM->创建帧动画配置表", "知道了");
+            var cs = ((HMSprite)target);
+            Transform transform = cs.transform;
+            MeshRenderer meshRenderer = transform.GetComponent<MeshRenderer>();
+            MeshFilter meshFilter = transform.GetComponent<MeshFilter>();
+
+            if (meshRenderer == null || meshFilter == null) return;
+            meshFilter.sharedMesh.bounds = meshRenderer.localBounds;
+            if (transform.hasChanged)
+            {
+                transform.hasChanged = false;
+                cs.OnEditorCall();
+            }
+
+            // Debug.Log($"OnSceneGUI {transform.name}");
         }
     }
+
+    // [EditorTool("Rect Tool", typeof(HM.HMSprite.HMSprite))]
+    // public class HMSpriteEditorTool : EditorTool
+    // {
+    //     // 绘制工具的GUI
+    //     public override void OnToolGUI(EditorWindow window)
+    //     {
+    //         Transform transform = ((HMSprite)target).transform;
+    //     }
+    // }
+    //
 }

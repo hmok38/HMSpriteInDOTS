@@ -1,7 +1,9 @@
 {
     "name": "HM.HMSprite.Editor",
     "rootNamespace": "HM.HMSprite.Editor",
-    "references": [],
+    "references": [
+        "HMSprite"
+    ],
     "includePlatforms": [
         "Editor"
     ],
