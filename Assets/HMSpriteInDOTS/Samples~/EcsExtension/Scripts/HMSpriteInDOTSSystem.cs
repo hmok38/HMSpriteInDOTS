@@ -46,7 +46,8 @@ namespace HM.HMSprite.ECS
                 if (!SpriteKeyMap.ContainsKey(key))
                 {
                     pivotAndSizeRw.ValueRW.Value = new float4(0, 0, 0, 0);
-                    Debug.Log($"没有{spriteInDOTS.SpriteHashCode}  {SpriteKeyMap.Count}  {spriteInDOTS.GetSpriteKey()}");
+                    Debug.Log(
+                        $"没有{spriteInDOTS.SpriteHashCode}  {SpriteKeyMap.Count} RenderType:{(int)spriteInDOTS.RenderTypeV}  {spriteInDOTS.GetSpriteKey()}");
                     continue;
                 }
 
