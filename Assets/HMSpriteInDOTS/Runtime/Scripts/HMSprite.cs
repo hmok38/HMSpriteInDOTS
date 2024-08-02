@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 // ReSharper disable once CheckNamespace
@@ -10,16 +11,16 @@ namespace HM.HMSprite
      ExecuteAlways]
     public class HMSprite : MonoBehaviour
     {
-        [SerializeField] public Sprite sprite;
-        [SerializeField] public Color color = Color.white;
+        [SerializeField] private Sprite sprite;
+        [SerializeField] private Color color = Color.white;
         [SerializeField] private RenderType renderType = RenderType.Opaque;
-        [System.NonSerialized] public Material MaterialOpaque, MaterialTransparent;
-        [System.NonSerialized] public bool Baked;
+        [System.NonSerialized] private Material _materialOpaque, _materialTransparent;
+        public bool Baked { get; set; }
 
 
-        [HideInInspector] public Vector2 slicedWidthAndHeight;
-        public float alphaClipThreshold = 0.5f;
-        public SpriteDrawMode spriteDrawMode = SpriteDrawMode.Simple;
+        [HideInInspector, SerializeField] private Vector2 slicedWidthAndHeight;
+        [SerializeField] private float alphaClipThreshold = 0.5f;
+        [SerializeField] public SpriteDrawMode spriteDrawMode = SpriteDrawMode.Simple;
         private MeshRenderer _meshRenderer;
         private MeshFilter _meshFilter;
 
@@ -41,7 +42,95 @@ namespace HM.HMSprite
             {
                 var beSame = color != value;
                 color = value;
-                if (!beSame) SetSprite(sprite);
+                if (!beSame) SetSprite(Sprite);
+            }
+        }
+
+        public RenderType RenderType
+        {
+            get => renderType;
+            set
+            {
+                var beSame = renderType == value;
+                renderType = value;
+                if (!beSame) SetSprite(Sprite);
+            }
+        }
+
+        public Vector2 SlicedWidthAndHeight
+        {
+            get => slicedWidthAndHeight;
+            set
+            {
+                var beSame = slicedWidthAndHeight == value;
+                slicedWidthAndHeight = value;
+                if (!beSame) SetSprite(Sprite);
+            }
+        }
+
+        public float AlphaClipThreshold
+        {
+            get => alphaClipThreshold;
+            set
+            {
+                var beSame = Math.Abs(alphaClipThreshold - value) < 0.001f;
+                alphaClipThreshold = value;
+                if (!beSame) SetSprite(Sprite);
+            }
+        }
+
+        public SpriteDrawMode SpriteDrawMode
+        {
+            get => spriteDrawMode;
+            set
+            {
+                var beSame = spriteDrawMode == value;
+                spriteDrawMode = value;
+                if (!beSame) SetSprite(Sprite);
+            }
+        }
+
+        public Material MaterialOpaque
+        {
+            get => _materialOpaque;
+            set
+            {
+                var beSame = _materialOpaque == value;
+                if (value != null)
+                {
+                    _materialOpaque = new Material(value)
+                    {
+                        name = value.name
+                    };
+                }
+                else
+                {
+                    _materialOpaque = value;
+                }
+
+                if (!beSame) SetSprite(Sprite);
+            }
+        }
+
+        public Material MaterialTransparent
+        {
+            get => _materialTransparent;
+            set
+            {
+                var beSame = _materialTransparent == value;
+                if (value != null)
+                {
+                    _materialTransparent = new Material(value)
+                    {
+                        name = value.name
+                    };
+                }
+                else
+                {
+                    _materialTransparent = value;
+                }
+
+                if (!beSame) SetSprite(Sprite);
             }
         }
 

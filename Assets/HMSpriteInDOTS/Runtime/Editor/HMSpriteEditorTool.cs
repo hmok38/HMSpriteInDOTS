@@ -36,15 +36,18 @@ namespace HM.HMSprite.Editor
                 EditorGUILayout.BeginVertical(GUI.skin.textArea);
                 EditorGUILayout.LabelField("---9宫格设置----");
                 EditorGUILayout.Space();
-                var old = cs.slicedWidthAndHeight;
-                cs.slicedWidthAndHeight = EditorGUILayout.Vector2Field("9宫格宽高", cs.slicedWidthAndHeight);
+                var old = cs.SlicedWidthAndHeight;
+                cs.SlicedWidthAndHeight = EditorGUILayout.Vector2Field("9宫格宽高", cs.SlicedWidthAndHeight);
 
                 EditorGUILayout.Space();
                 EditorGUILayout.EndVertical();
 
-                if (old != cs.slicedWidthAndHeight)
+                if (old != cs.SlicedWidthAndHeight)
                 {
-                    cs.OnValidate();
+                    if (!Application.isPlaying)
+                    {
+                        UnityEditor.EditorUtility.SetDirty(cs);
+                    }
                 }
 
                 if (cs.transform.localScale != Vector3.one)
