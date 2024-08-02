@@ -2,7 +2,8 @@
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace HM.HMSprite
+// ReSharper disable once CheckNamespace
+namespace HM.HMSprite.ECS
 {
     public class SpriteInDOTSBaker : Baker<HMSprite>
     {
@@ -25,20 +26,42 @@ namespace HM.HMSprite
                         ? authoring.Sprite.PivotAndUnitSize()
                         : new float4(0.5f, 0.5f, 0, 0)
                 });
+            AddComponent(entity,
+                new MaterialMeshWh()
+                {
+                    Value = authoring.MeshWh
+                });
+            AddComponent(entity,
+                new MaterialBorder()
+                {
+                    Value = authoring.Border
+                });
+            AddComponent(entity,
+                new MaterialDrawType()
+                {
+                    Value = (float)authoring.SpriteDrawMode
+                });
+            AddComponent(entity,
+                new MaterialWidthAndHeight()
+                {
+                    Value = authoring.SlicedWidthAndHeight
+                });
 
             AddComponent(entity, new SpriteInDOTS()
             {
-                SpriteHashCode = authoring.Sprite != null ? authoring.Sprite.GetHashCode() : 0
+                SpriteHashCode = authoring.Sprite != null ? authoring.Sprite.GetHashCode() : 0,
+                RenderTypeV = authoring.RenderType
             });
+
+
             var spriteInDOTSRegisterBakeSprite = new SpriteInDOTSRegisterBakeSprite()
             {
                 Sprite = authoring.Sprite
             };
             //Debug.Log($"烘焙 sprite {authoring.sprite.name} {authoring.sprite.GetHashCode()} texture: {authoring.sprite.texture.name}  {authoring.sprite.texture.GetHashCode()}");
-               
+
 
             AddComponentObject(entity, spriteInDOTSRegisterBakeSprite);
         }
     }
-
 }

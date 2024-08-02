@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using Unity.Entities;
+﻿using Unity.Entities;
 using UnityEngine;
 
 // ReSharper disable once CheckNamespace
-namespace HM.HMSprite
+namespace HM.HMSprite.ECS
 {   
     //需要注册非runtimeMaterial的组件
     public class SpriteInDOTSRegisterBakeSprite:IComponentData

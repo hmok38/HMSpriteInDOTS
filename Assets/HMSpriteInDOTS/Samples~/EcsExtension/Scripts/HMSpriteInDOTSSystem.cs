@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 // ReSharper disable once CheckNamespace
-namespace HM.HMSprite
+namespace HM.HMSprite.ECS
 {
     [BurstCompile][CreateAfter(typeof(EntitiesGraphicsSystem))]
     public partial struct HMSpriteInDOTSSystem : Unity.Entities.ISystem

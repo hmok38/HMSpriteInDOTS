@@ -2,10 +2,9 @@
 using Unity.Entities;
 using Unity.Rendering;
 using UnityEngine;
-using Hash128 = Unity.Entities.Hash128;
 
 // ReSharper disable once CheckNamespace
-namespace HM.HMSprite
+namespace HM.HMSprite.ECS
 {
     [Unity.Entities.CreateAfter(typeof(HMSpriteInDOTSSystem)),
      Unity.Entities.UpdateBefore(typeof(HMSpriteInDOTSSystem))]

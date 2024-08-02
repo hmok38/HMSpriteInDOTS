@@ -4,10 +4,9 @@ using Unity.Mathematics;
 using Unity.Rendering;
 using UnityEngine;
 using UnityEngine.Rendering;
-using Object = UnityEngine.Object;
 
 // ReSharper disable once CheckNamespace
-namespace HM.HMSprite
+namespace HM.HMSprite.ECS
 {
     /// <summary>
     /// 给mono访问的管理器

@@ -1,6 +1,6 @@
 ﻿// ReSharper disable once CheckNamespace
 
-namespace HM.HMSprite
+namespace HM.HMSprite.ECS
 {
     using UnityEngine;
 

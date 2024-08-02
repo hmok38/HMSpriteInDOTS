@@ -1,4 +1,5 @@
-﻿using Unity.Collections;
+﻿using HM.HMSprite.ECS;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Rendering;
 

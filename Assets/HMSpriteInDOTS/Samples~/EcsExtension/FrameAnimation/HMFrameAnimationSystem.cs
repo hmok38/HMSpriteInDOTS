@@ -1,4 +1,5 @@
-﻿using Unity.Burst;
+﻿using HM.HMSprite.ECS;
+using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Rendering;

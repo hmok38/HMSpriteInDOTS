@@ -5,7 +5,7 @@ using Unity.Rendering;
 using UnityEngine;
 
 // ReSharper disable once CheckNamespace
-namespace HM.HMSprite
+namespace HM.HMSprite.ECS
 {
     [Serializable]
     [MaterialProperty("_PivotAndSize")]
