@@ -61,7 +61,7 @@ namespace HM.HMSprite.ECS
                 SpriteHashCode = authoring.Sprite != null ? authoring.Sprite.GetHashCode() : 0,
                 RenderTypeV = authoring.RenderType,
                 AlphaClipThreshold = authoring.AlphaClipThreshold,
-                DrawType = (int)authoring.spriteDrawMode,
+                DrawType = (int)authoring.SpriteDrawMode,
                 SlicedWidthAndHeight = authoring.SlicedWidthAndHeight
             };
             spriteInDOTS.SpriteKeyOpaque =
@@ -76,7 +76,7 @@ namespace HM.HMSprite.ECS
                 Sprite = authoring.Sprite,
                 RenderTypeV = authoring.RenderType,
                 AlphaClipThreshold = authoring.AlphaClipThreshold,
-                DrawType = (int)authoring.spriteDrawMode,
+                DrawType = (int)authoring.SpriteDrawMode,
                 SlicedWidthAndHeight = authoring.SlicedWidthAndHeight
             };
             //Debug.Log($"烘焙 sprite {authoring.sprite.name} {authoring.sprite.GetHashCode()} texture: {authoring.sprite.texture.name}  {authoring.sprite.texture.GetHashCode()}");

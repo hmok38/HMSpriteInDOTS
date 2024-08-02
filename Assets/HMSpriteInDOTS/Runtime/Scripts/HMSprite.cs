@@ -20,7 +20,7 @@ namespace HM.HMSprite
 
         [HideInInspector, SerializeField] private Vector2 slicedWidthAndHeight;
         [SerializeField] private float alphaClipThreshold = 0.5f;
-        [SerializeField] public SpriteDrawMode spriteDrawMode = SpriteDrawMode.Simple;
+        [SerializeField] private SpriteDrawMode spriteDrawMode = SpriteDrawMode.Simple;
         private MeshRenderer _meshRenderer;
         private MeshFilter _meshFilter;
 
