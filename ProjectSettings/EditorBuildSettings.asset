@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/HMSpriteInDOTS/Samples/SampleURP/FrameAnimationDemo.unity
+    path: Assets/Samples/EcsExtension/Scenes/FrameAnimationDemo.unity
     guid: 0693124bc8c016c468da8af790ae5acd
   m_configObjects: {}

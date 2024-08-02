@@ -1,5 +1,4 @@
-﻿using System;
-using Unity.Burst;
+﻿using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -37,10 +36,11 @@ namespace HM.HMSprite.ECS
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            foreach (var (spriteInDOTS, uvRectRw, pivotAndSizeRw, meshInfoRw, materialBorder, meshWh) in SystemAPI
+            foreach (var (spriteInDOTS, uvRectRw, pivotAndSizeRw, meshInfoRw, materialBorder,
+                         meshWh, entity) in SystemAPI
                          .Query<SpriteInDOTS, RefRW<MaterialUvRect>, RefRW<MaterialPivotAndSize>,
                              RefRW<MaterialMeshInfo>, RefRW<MaterialBorder>, RefRW<MaterialMeshWh>>()
-                         .WithNone<SpriteInDOTSRegisterBakeSprite>())
+                         .WithNone<SpriteInDOTSRegisterBakeSprite>().WithEntityAccess())
             {
                 var key = spriteInDOTS.GetSpriteKey();
                 if (!SpriteKeyMap.ContainsKey(key))
@@ -57,6 +57,11 @@ namespace HM.HMSprite.ECS
                 pivotAndSizeRw.ValueRW.Value = spriteInDOTSId.MaterialPivotAndSize;
                 materialBorder.ValueRW.Value = spriteInDOTSId.MaterialBorder;
                 meshWh.ValueRW.Value = spriteInDOTSId.MaterialMeshWh;
+                state.EntityManager.SetComponentData(entity,
+                    new MaterialAlphaClipThreshold() { Value = spriteInDOTS.AlphaClipThreshold });
+                state.EntityManager.SetComponentData(entity, new MaterialDrawType() { Value = spriteInDOTS.DrawType });
+                state.EntityManager.SetComponentData(entity,
+                    new MaterialWidthAndHeight() { Value = spriteInDOTS.SlicedWidthAndHeight });
             }
         }
 
@@ -67,5 +72,4 @@ namespace HM.HMSprite.ECS
             MaterialMap.Dispose();
         }
     }
-    
 }

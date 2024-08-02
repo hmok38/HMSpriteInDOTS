@@ -1,6 +1,6 @@
 {
   "name": "com.hm.hmspriteindots",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "displayName": "HMSprite",
   "description": "HMSpriteInDOTS",
   "unity": "2021.3",
@@ -22,11 +22,6 @@
       "displayName": "SampleURP",
       "description": "URP示例项目",
       "path": "sample~/SampleURP"
-    },
-    {
-      "displayName": "HMSpriteInDOTSDemo",
-      "description": "Dots示例项目",
-      "path": "sample~/HMSpriteInDOTSDemo"
     }
   ]
 }
