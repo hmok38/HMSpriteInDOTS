@@ -26,6 +26,9 @@
         },
         {
             "m_Id": "0226a80b4c0c438da824bd6d79c61a72"
+        },
+        {
+            "m_Id": "01149f6a60724ca4b5a463514e526a60"
         }
     ],
     "m_Keywords": [],
@@ -128,6 +131,9 @@
         },
         {
             "m_Id": "58985a4275294beeaed716c4be384d28"
+        },
+        {
+            "m_Id": "ea5c38f17ea144fe86cc09d36e943cc9"
         }
     ],
     "m_GroupDatas": [],
@@ -416,6 +422,20 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
+                    "m_Id": "ea5c38f17ea144fe86cc09d36e943cc9"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "af7a4b9b631d42059fb74a533249c40f"
+                },
+                "m_SlotId": 0
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
                     "m_Id": "f377b077379847389a07ce6f6e228d0f"
                 },
                 "m_SlotId": 3
@@ -439,20 +459,6 @@
                     "m_Id": "2b1464ae8b2e43ffa00e106cd605f6ee"
                 },
                 "m_SlotId": 6
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "f4276b026ecb4c69866ab3d1840e320d"
-                },
-                "m_SlotId": 4
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "af7a4b9b631d42059fb74a533249c40f"
-                },
-                "m_SlotId": 0
             }
         }
     ],
@@ -569,6 +575,34 @@
     },
     "m_Property": {
         "m_Id": "efcd83930394486cb0daa4ba3e1f6371"
+    }
+}
+
+{
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
+    "m_ObjectId": "01149f6a60724ca4b5a463514e526a60",
+    "m_Guid": {
+        "m_GuidSerialized": "620842f4-f041-43c7-8ece-63d8fef33115"
+    },
+    "m_Name": "AlphaClipThreshold",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "AlphaClipThreshold",
+    "m_DefaultReferenceName": "_AlphaClipThreshold",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": 0.5,
+    "m_FloatType": 0,
+    "m_RangeValues": {
+        "x": 0.0,
+        "y": 1.0
     }
 }
 
@@ -950,6 +984,21 @@
         "z": 0.0,
         "w": 0.0
     },
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "256723f95e4c4823b11735f8896d4c6f",
+    "m_Id": 0,
+    "m_DisplayName": "AlphaClipThreshold",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
     "m_Labels": []
 }
 
@@ -3037,6 +3086,42 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
+    "m_ObjectId": "ea5c38f17ea144fe86cc09d36e943cc9",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Property",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": -373.0,
+            "y": 406.0,
+            "width": 177.0,
+            "height": 34.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "256723f95e4c4823b11735f8896d4c6f"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_Property": {
+        "m_Id": "01149f6a60724ca4b5a463514e526a60"
+    }
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector2MaterialSlot",
     "m_ObjectId": "edc578602400491598ae236283a25b74",
     "m_Id": 0,
@@ -3336,6 +3421,9 @@
         },
         {
             "m_Id": "0226a80b4c0c438da824bd6d79c61a72"
+        },
+        {
+            "m_Id": "01149f6a60724ca4b5a463514e526a60"
         }
     ]
 }

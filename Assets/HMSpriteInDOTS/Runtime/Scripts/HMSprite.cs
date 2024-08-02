@@ -153,9 +153,8 @@ namespace HM.HMSprite
             get
             {
                 if (Sprite != null)
-                    return new Vector4(1, 1, Sprite.pixelsPerUnit,
-                        RenderType == RenderType.Opaque ? this.AlphaClipThreshold : 0f);
-                return new Vector4(1, 1, 100, 0.5f);
+                    return new Vector4(1, 1, Sprite.pixelsPerUnit, 0f);
+                return new Vector4(1, 1, 100, 0f);
             }
         }
 
@@ -257,6 +256,7 @@ namespace HM.HMSprite
             }
 
             CalculateBound(spriteTemp);
+            material.SetFloat(AlphaClipThresholdKey, AlphaClipThreshold);
             material.SetInt(DrawTypeKey, GetDrawTypeValue(this.SpriteDrawMode));
         }
 
@@ -311,7 +311,7 @@ namespace HM.HMSprite
         public static readonly int BorderKey = Shader.PropertyToID("_Border");
         public static readonly int DrawTypeKey = Shader.PropertyToID("_DrawType");
         public static readonly int WidthAndHeightKey = Shader.PropertyToID("_WidthAndHeight");
-
+        public static readonly int AlphaClipThresholdKey = Shader.PropertyToID("_AlphaClipThreshold");
 
         private static Material _globalMaterialOpaqueRes;
 
@@ -375,19 +375,6 @@ namespace HM.HMSprite
 
             return 0;
         }
-
-        public static Material CreateMaterial(string name = "HMSpriteOpaque")
-        {
-            var mat = Resources.Load<Material>(
-                name);
-            var material = new Material(mat)
-            {
-                name = name,
-                color = Color.white
-            };
-            return material;
-        }
-
 
         public static Mesh CreateQuadMesh()
         {
