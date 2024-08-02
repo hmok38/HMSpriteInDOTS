@@ -30,7 +30,7 @@ namespace HM.HMSprite.Editor
         {
             base.OnInspectorGUI();
             var cs = ((HMSprite)target);
-            if (cs.spriteDrawMode == SpriteDrawMode.Sliced)
+            if (cs.SpriteDrawMode == SpriteDrawMode.Sliced)
             {
                 EditorGUILayout.Space();
                 EditorGUILayout.BeginVertical(GUI.skin.textArea);

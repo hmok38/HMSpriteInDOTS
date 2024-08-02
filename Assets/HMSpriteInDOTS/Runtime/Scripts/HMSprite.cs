@@ -59,7 +59,21 @@ namespace HM.HMSprite
 
         public Vector2 SlicedWidthAndHeight
         {
-            get => slicedWidthAndHeight;
+            get
+            {
+                if (Sprite != null)
+                {
+                    if (slicedWidthAndHeight.x == 0 || slicedWidthAndHeight.y == 0)
+                    {
+                        slicedWidthAndHeight.x = Sprite.PivotAndUnitSize().z;
+                        slicedWidthAndHeight.y = Sprite.PivotAndUnitSize().w;
+                    }
+
+                    return slicedWidthAndHeight;
+                }
+
+                return new Vector2(1, 1);
+            }
             set
             {
                 var beSame = slicedWidthAndHeight == value;
@@ -134,13 +148,29 @@ namespace HM.HMSprite
             }
         }
 
+        public Vector4 MeshWh
+        {
+            get
+            {
+                if (Sprite != null)
+                    return new Vector4(1, 1, Sprite.pixelsPerUnit,
+                        RenderType == RenderType.Opaque ? this.AlphaClipThreshold : 0f);
+                return new Vector4(1, 1, 100, 0.5f);
+            }
+        }
+
+        public Vector4 Border
+        {
+            get { return Sprite != null ? Sprite.border : Vector4.zero; }
+        }
+
         void Start()
         {
             if (Baked) return;
             if (this._meshRenderer == null) this._meshRenderer = this.GetComponent<MeshRenderer>();
             if (this._meshFilter == null) this._meshFilter = this.GetComponent<MeshFilter>();
             this._meshRenderer.sharedMaterial = null;
-            SetSprite(sprite);
+            SetSprite(Sprite);
         }
 
 
@@ -154,11 +184,11 @@ namespace HM.HMSprite
             var material = this._meshRenderer.sharedMaterial;
 
             if (material == null
-                || (this.renderType == RenderType.Opaque
+                || (this.RenderType == RenderType.Opaque
                     ? (material != MaterialOpaque)
                     : (material != MaterialTransparent)))
             {
-                if (this.renderType == RenderType.Opaque)
+                if (this.RenderType == RenderType.Opaque)
                 {
                     if (MaterialOpaque == null)
                     {
@@ -171,7 +201,7 @@ namespace HM.HMSprite
 
                     this._meshRenderer.sharedMaterial = MaterialOpaque;
                 }
-                else if (this.renderType == RenderType.Transparent)
+                else if (this.RenderType == RenderType.Transparent)
                 {
                     if (MaterialTransparent == null)
                     {
@@ -207,33 +237,27 @@ namespace HM.HMSprite
                 material.mainTexture = null;
             }
 
-            material.color = color;
+            material.color = MainColor;
             material.SetVector(RectKey, uv);
             material.SetVector(PivotAndWhKey, pivotAndSize);
             var meshRenderer = this._meshRenderer;
             if (spriteTemp != null)
             {
-                material.SetVector(MeshWhKey,
-                    new Vector4(1, 1, spriteTemp.pixelsPerUnit,
-                        renderType == RenderType.Opaque ? this.alphaClipThreshold : 0f));
-                material.SetVector(BorderKey, spriteTemp.border);
-                if (slicedWidthAndHeight.x == 0 || slicedWidthAndHeight.y == 0)
-                {
-                    slicedWidthAndHeight.x = spriteTemp.PivotAndUnitSize().z;
-                    slicedWidthAndHeight.y = spriteTemp.PivotAndUnitSize().w;
-                }
+                material.SetVector(MeshWhKey, MeshWh);
+                material.SetVector(BorderKey, Border);
 
-                material.SetVector(WidthAndHeightKey, slicedWidthAndHeight);
+
+                material.SetVector(WidthAndHeightKey, SlicedWidthAndHeight);
             }
             else
             {
-                material.SetVector(MeshWhKey, new Vector4(1, 1, 100, 0.5f));
-                material.SetVector(BorderKey, Vector4.zero);
-                material.SetVector(WidthAndHeightKey, new Vector4(1, 1));
+                material.SetVector(MeshWhKey, MeshWh);
+                material.SetVector(BorderKey, Border);
+                material.SetVector(WidthAndHeightKey, SlicedWidthAndHeight);
             }
 
             CalculateBound(spriteTemp);
-            material.SetInt(DrawTypeKey, GetDrawTypeValue(this.spriteDrawMode));
+            material.SetInt(DrawTypeKey, GetDrawTypeValue(this.SpriteDrawMode));
         }
 
         private void CalculateBound(Sprite spriteTemp)
@@ -245,23 +269,23 @@ namespace HM.HMSprite
 
                 Vector3 offset = new Vector3(
                     -(pivotAndSize.x - 0.5f) *
-                    (spriteDrawMode == SpriteDrawMode.Sliced ? slicedWidthAndHeight.x : pivotAndSize.z),
+                    (SpriteDrawMode == SpriteDrawMode.Sliced ? SlicedWidthAndHeight.x : pivotAndSize.z),
                     -(pivotAndSize.y - 0.5f) *
-                    (spriteDrawMode == SpriteDrawMode.Sliced ? slicedWidthAndHeight.y : pivotAndSize.w));
+                    (SpriteDrawMode == SpriteDrawMode.Sliced ? SlicedWidthAndHeight.y : pivotAndSize.w));
 
                 Vector3 scale = transform.lossyScale;
-                meshRenderer.bounds = spriteDrawMode == SpriteDrawMode.Sliced
+                meshRenderer.bounds = SpriteDrawMode == SpriteDrawMode.Sliced
                     ? new Bounds(this.transform.position + new Vector3(offset.x * scale.x, offset.y * scale.y),
-                        new Vector3(slicedWidthAndHeight.x * scale.x, slicedWidthAndHeight.y * scale.y, 0f))
+                        new Vector3(SlicedWidthAndHeight.x * scale.x, SlicedWidthAndHeight.y * scale.y, 0f))
                     : new Bounds(this.transform.position + new Vector3(offset.x * scale.x, offset.y * scale.y),
                         new Vector3(
                             pivotAndSize.z * scale.x, pivotAndSize.w * scale.y, 0f
                         ));
                 //var bounds = meshRenderer.bounds;
                 //Debug.DrawLine(bounds.min, bounds.max, Color.red, 1000);
-                meshRenderer.localBounds = spriteDrawMode == SpriteDrawMode.Sliced
+                meshRenderer.localBounds = SpriteDrawMode == SpriteDrawMode.Sliced
                     ? new Bounds(offset,
-                        new Vector3(slicedWidthAndHeight.x, slicedWidthAndHeight.y, 0f))
+                        new Vector3(SlicedWidthAndHeight.x, SlicedWidthAndHeight.y, 0f))
                     : new Bounds(offset, new Vector3(
                         pivotAndSize.z, pivotAndSize.w, 0f
                     ));
@@ -276,7 +300,7 @@ namespace HM.HMSprite
         public void OnValidate()
         {
             Baked = false;
-            SetSprite(sprite);
+            SetSprite(Sprite);
         }
 
         #region **********Static  Method*****************************************
@@ -414,7 +438,7 @@ namespace HM.HMSprite
         public void OnEditorCallTransformChanged()
         {
             //Debug.Log("OnEditorCall");
-            CalculateBound(sprite);
+            CalculateBound(Sprite);
         }
 
         public void OnRestLocalScale()
@@ -423,11 +447,9 @@ namespace HM.HMSprite
             {
                 var transform1 = this.transform;
                 var localS = transform1.localScale;
-                var old = this.slicedWidthAndHeight;
-
-                this.slicedWidthAndHeight = new Vector2(old.x * localS.x, old.y * localS.y);
+                var old = this.SlicedWidthAndHeight;
+                this.SlicedWidthAndHeight = new Vector2(old.x * localS.x, old.y * localS.y);
                 transform1.localScale = Vector3.one;
-                OnValidate();
             }
         }
 #endif
