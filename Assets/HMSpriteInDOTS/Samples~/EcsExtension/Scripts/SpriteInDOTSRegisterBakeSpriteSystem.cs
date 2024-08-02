@@ -1,5 +1,7 @@
-﻿using Unity.Collections;
+﻿using System;
+using Unity.Collections;
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.Rendering;
 using UnityEngine;
 
@@ -37,35 +39,52 @@ namespace HM.HMSprite.ECS
 
 
                 var spriteHash = sprite.GetHashCode();
-
-                if (!spriteInDOTSSystem.SpriteMap.ContainsKey(spriteHash))
+                var spriteKey =
+                    SpriteInDOTSMgr.GetSpriteOrTextureKey(spriteHash, spriteInDOTSRegisterBakeSprite.RenderTypeV);
+                if (!spriteInDOTSSystem.SpriteKeyMap.ContainsKey(spriteKey))
                 {
-                    Debug.Log($"SpriteInDOTSRegister注册sprite {sprite.name} {spriteHash}");
+                    Debug.Log(
+                        $"SpriteInDOTSRegister注册sprite {sprite.name} {spriteHash} RenderTypeV: {spriteInDOTSRegisterBakeSprite.RenderTypeV} key={spriteKey}");
                     var textureHash = sprite.texture.GetHashCode();
-                    if (!spriteInDOTSSystem.MaterialMap.ContainsKey(textureHash))
+                    var materialKey =
+                        SpriteInDOTSMgr.GetSpriteOrTextureKey(textureHash,
+                            spriteInDOTSRegisterBakeSprite.RenderTypeV);
+
+                    if (!spriteInDOTSSystem.MaterialMap.ContainsKey(materialKey))
                     {
-                        Debug.Log($"SpriteInDOTSRegister注册texture {sprite.texture.name}  {textureHash}");
-                        var mat = HMSprite.CreateMaterial(sprite.texture.name);
+                        Debug.Log(
+                            $"SpriteInDOTSRegister注册texture {sprite.texture.name}  {textureHash} RenderTypeV: {spriteInDOTSRegisterBakeSprite.RenderTypeV} key={materialKey}");
+                        var mat = SpriteInDOTSMgr.CreateMaterial(
+                            spriteInDOTSRegisterBakeSprite.RenderTypeV == RenderType.Opaque
+                                ? SpriteInDOTSMgr.DefaultOpaqueMaterialPath
+                                : SpriteInDOTSMgr.DefaultTransparentMaterialPath, sprite.texture.name);
                         mat.mainTexture = sprite.texture;
                         var id = graphicsSystem.RegisterMaterial(mat);
-                        spriteInDOTSSystem.MaterialMap.Add(textureHash, id);
+                        spriteInDOTSSystem.MaterialMap.Add(materialKey, id);
                     }
 
 
-                    spriteInDOTSSystem.SpriteMap.Add(spriteHash, new SpriteInDOTSId()
+                    spriteInDOTSSystem.SpriteKeyMap.Add(spriteKey, new SpriteInDOTSId()
                     {
-                        MaterialID = spriteInDOTSSystem.MaterialMap[textureHash],
+                        MaterialID = spriteInDOTSSystem.MaterialMap[materialKey],
                         MeshID = spriteInDOTSSystem.MeshID,
                         SpriteHashCode = spriteHash,
                         MaterialUvRect = sprite.UVRect(),
-                        MaterialPivotAndSize = sprite.PivotAndUnitSize()
+                        MaterialPivotAndSize = sprite.PivotAndUnitSize(),
+                        MaterialBorder = sprite.border,
+                        MaterialMeshWh = new float4(1, 1, sprite.pixelsPerUnit, 0)
                     });
                 }
 
 
                 ecb.RemoveComponent<SpriteInDOTSRegisterBakeSprite>(entity);
 
-                spriteInDOTSRW.ValueRW.SpriteHashCode = spriteInDOTSRegisterBakeSprite.Sprite.GetHashCode();
+                spriteInDOTSRW.ValueRW.SpriteHashCode =
+                    spriteHash; //替换烘焙出来的hashCode,因为runtime的hashcode和编辑器中资源的hashCode不相同
+                spriteInDOTSRW.ValueRW.SpriteKeyOpaque =
+                    SpriteInDOTSMgr.GetSpriteOrTextureKey(spriteHash, RenderType.Opaque);
+                spriteInDOTSRW.ValueRW.SpriteKeyTransparent =
+                    SpriteInDOTSMgr.GetSpriteOrTextureKey(spriteHash, RenderType.Transparent);
             }
 
             ecb.Playback(state.EntityManager);

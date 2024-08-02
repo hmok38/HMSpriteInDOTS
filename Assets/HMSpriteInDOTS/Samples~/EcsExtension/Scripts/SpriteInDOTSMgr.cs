@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Rendering;
@@ -13,6 +14,8 @@ namespace HM.HMSprite.ECS
     /// </summary>
     public static class SpriteInDOTSMgr
     {
+        public static string DefaultOpaqueMaterialPath = "HMSpriteOpaqueECS";
+        public static string DefaultTransparentMaterialPath = "HMSpriteTransparentECS";
         public static World MWorld => World.DefaultGameObjectInjectionWorld;
 
 
@@ -77,8 +80,27 @@ namespace HM.HMSprite.ECS
             return true;
         }
 
+        private static readonly System.Collections.Generic.Dictionary<string, Material> MaterialResMap =
+            new Dictionary<string, Material>(100);
 
-        public static SpriteInDOTSId RegisterSprite(Sprite sprite)
+        public static Material CreateMaterial(string resPath = "HMSpriteOpaque", string materialName = "HMSpriteOpaque")
+        {
+            if (!MaterialResMap.TryGetValue(resPath, out var mat))
+            {
+                mat = Resources.Load<Material>(
+                    resPath);
+                MaterialResMap.Add(resPath, mat);
+            }
+
+            var material = new Material(mat)
+            {
+                name = materialName,
+                color = Color.white
+            };
+            return material;
+        }
+
+        public static SpriteInDOTSId RegisterSprite(Sprite sprite, RenderType renderType)
         {
             if (MWorld == null || !MWorld.IsCreated)
             {
@@ -87,31 +109,50 @@ namespace HM.HMSprite.ECS
             }
 
             if (sprite == null) return default;
-            var hashCode = sprite.GetHashCode();
+            var spriteHashCode = sprite.GetHashCode();
+            var spriteKey = SpriteInDOTSMgr.GetSpriteOrTextureKey(spriteHashCode, renderType);
+
             var textureCode = sprite.texture.GetHashCode();
-            var spriteMap = MWorld.Unmanaged.GetUnsafeSystemRef<HMSpriteInDOTSSystem>(SpriteSystemHandle).SpriteMap;
-            if (!spriteMap.ContainsKey(hashCode))
+            var textureKey = SpriteInDOTSMgr.GetSpriteOrTextureKey(textureCode, renderType);
+
+            var spriteMap = MWorld.Unmanaged.GetUnsafeSystemRef<HMSpriteInDOTSSystem>(SpriteSystemHandle).SpriteKeyMap;
+            if (!spriteMap.ContainsKey(spriteKey))
             {
                 var materialMap = MWorld.Unmanaged.GetUnsafeSystemRef<HMSpriteInDOTSSystem>(SpriteSystemHandle)
                     .MaterialMap;
                 SpriteInDOTSId v;
-                if (!materialMap.ContainsKey(textureCode))
+                if (!materialMap.ContainsKey(textureKey))
                 {
-                    var mat = HMSprite.CreateMaterial(sprite.texture.name);
+                    var mat = SpriteInDOTSMgr.CreateMaterial(
+                        renderType == RenderType.Opaque ? DefaultOpaqueMaterialPath : DefaultTransparentMaterialPath,
+                        sprite.texture.name);
                     mat.mainTexture = sprite.texture;
                     var id = CurrentGraphicsSystem.RegisterMaterial(mat);
-                    materialMap.Add(textureCode, id);
+                    materialMap.Add(textureKey, id);
                 }
 
-                v.SpriteHashCode = hashCode;
-                v.MaterialID = materialMap[textureCode];
+                v.SpriteHashCode = spriteHashCode;
+                v.MaterialID = materialMap[textureKey];
                 v.MeshID = MeshID;
                 v.MaterialUvRect = sprite.UVRect();
                 v.MaterialPivotAndSize = sprite.PivotAndUnitSize();
-                spriteMap.Add(hashCode, v);
+                v.MaterialBorder = sprite.border;
+                v.MaterialMeshWh = new float4(1, 1, sprite.pixelsPerUnit, 0);
+                spriteMap.Add(spriteKey, v);
             }
 
-            return spriteMap[hashCode];
+            return spriteMap[spriteKey];
+        }
+
+        /// <summary>
+        /// 获取查询sprite或者texture的key
+        /// </summary>
+        /// <param name="spriteOrTextureHashCode"></param>
+        /// <param name="renderType"></param>
+        /// <returns></returns>
+        public static int GetSpriteOrTextureKey(int spriteOrTextureHashCode, RenderType renderType)
+        {
+            return HashCode.Combine(spriteOrTextureHashCode, renderType);
         }
     }
 
@@ -129,12 +170,17 @@ namespace HM.HMSprite.ECS
         public BatchMeshID MeshID;
         public float4 MaterialUvRect;
         public float4 MaterialPivotAndSize;
+        public float4 MaterialBorder;
+        public float4 MaterialMeshWh;
+
 
         public bool Equals(SpriteInDOTSId other)
         {
             return SpriteHashCode == other.SpriteHashCode && MaterialID.Equals(other.MaterialID) &&
                    MeshID.Equals(other.MeshID) && MaterialUvRect.Equals(other.MaterialUvRect) &&
-                   MaterialPivotAndSize.Equals(other.MaterialPivotAndSize);
+                   MaterialPivotAndSize.Equals(other.MaterialPivotAndSize) &&
+                   MaterialBorder.Equals(other.MaterialBorder)
+                   && MaterialMeshWh.Equals(other.MaterialMeshWh);
         }
 
         public override bool Equals(object obj)
@@ -144,7 +190,8 @@ namespace HM.HMSprite.ECS
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(SpriteHashCode, MaterialID, MeshID, MaterialUvRect, MaterialPivotAndSize);
+            return HashCode.Combine(SpriteHashCode, MaterialID, MeshID, MaterialUvRect, MaterialPivotAndSize,
+                MaterialBorder, MaterialMeshWh);
         }
     }
 }

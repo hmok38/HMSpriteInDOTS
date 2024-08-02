@@ -41,22 +41,22 @@ namespace HM.HMSprite.FrameAnimation
 
 
                     var spriteHash = sprite.GetHashCode();
-
-                    if (!spriteInDOTSSystem.SpriteMap.ContainsKey(spriteHash))
+                
+                    if (!spriteInDOTSSystem.SpriteKeyMap.ContainsKey(spriteHash))
                     {
                         //Debug.Log($"FrameAnimation注册sprite {sprite.name} {spriteHash}");
                         var textureHash = sprite.texture.GetHashCode();
                         if (!spriteInDOTSSystem.MaterialMap.ContainsKey(textureHash))
                         {
                             //Debug.Log($"FrameAnimation注册texture {sprite.texture.name}  {textureHash}");
-                            var mat = HMSprite.CreateMaterial(sprite.texture.name);
+                            var mat = SpriteInDOTSMgr.CreateMaterial(sprite.texture.name);
                             mat.mainTexture = sprite.texture;
                             var id = graphicsSystem.RegisterMaterial(mat);
                             spriteInDOTSSystem.MaterialMap.Add(textureHash, id);
                         }
 
 
-                        spriteInDOTSSystem.SpriteMap.Add(spriteHash, new SpriteInDOTSId()
+                        spriteInDOTSSystem.SpriteKeyMap.Add(spriteHash, new SpriteInDOTSId()
                         {
                             MaterialID = spriteInDOTSSystem.MaterialMap[textureHash],
                             MeshID = spriteInDOTSSystem.MeshID,

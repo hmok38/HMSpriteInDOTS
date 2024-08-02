@@ -7,6 +7,9 @@ using UnityEngine;
 // ReSharper disable once CheckNamespace
 namespace HM.HMSprite.ECS
 {
+    /// <summary>
+    /// 根据sprite属性生成的参数,不可自定义
+    /// </summary>
     [Serializable]
     [MaterialProperty("_UvRect")]
     public struct MaterialUvRect : Unity.Entities.IComponentData
