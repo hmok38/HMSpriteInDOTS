@@ -37,9 +37,11 @@ namespace HM.HMSprite.FrameAnimation
             if (buffer.Length <= 0) return;
             frameAnimation.Timer += DeltaTime * frameAnimation.AnimationSpeed;
 
-            float progress = (frameAnimation.Timer) / frameAnimation.AnimationTotalTime;
+            var progress = (frameAnimation.Timer) / frameAnimation.AnimationTotalTime;
             var index = (int)math.floor((progress - Unity.Mathematics.math.floor(progress)) * buffer.Length);
             spriteInDOTS.SpriteHashCode = buffer[index].SpriteHash;
+            spriteInDOTS.SpriteKeyOpaque = buffer[index].SpriteKeyOpaque;
+            spriteInDOTS.SpriteKeyTransparent = buffer[index].SpriteKeyTransparent;
         }
     }
 }

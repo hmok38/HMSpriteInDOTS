@@ -58,5 +58,15 @@ namespace HM.HMSprite.FrameAnimation
     public struct FrameSpriteData : Unity.Entities.IBufferElementData
     {
         public int SpriteHash;
+
+        /// <summary>
+        /// 预先计算出来的渲染模式为 Opaque 的key
+        /// </summary>
+        public int SpriteKeyOpaque;
+
+        /// <summary>
+        /// 预先计算出来的渲染模式为 Transparent 的key
+        /// </summary>
+        public int SpriteKeyTransparent;
     }
 }

@@ -19,7 +19,6 @@ namespace HM.HMSprite.ECS
         public void OnUpdate(ref SystemState state)
         {
             EntitiesGraphicsSystem graphicsSystem = state.World.GetExistingSystemManaged<EntitiesGraphicsSystem>();
-            ;
             var handle = state.WorldUnmanaged.GetExistingUnmanagedSystem<HMSpriteInDOTSSystem>();
             var ecb = new Unity.Entities.EntityCommandBuffer(Allocator.Temp);
             var spriteInDOTSSystem = state.WorldUnmanaged.GetUnsafeSystemRef<HMSpriteInDOTSSystem>(handle);
@@ -30,10 +29,16 @@ namespace HM.HMSprite.ECS
                          .Query<RefRW<SpriteInDOTS>, SpriteInDOTSRegisterBakeSprite>().WithEntityAccess())
             {
                 var sprite = spriteInDOTSRegisterBakeSprite.Sprite;
-                var beSuc = RegisterSprite(ref graphicsSystem, ref spriteInDOTSSystem, ref spriteInDotsRw.ValueRW,
-                    sprite, spriteInDOTSRegisterBakeSprite.RenderTypeV);
+                var beSuc = RegisterSprite(ref graphicsSystem, ref spriteInDOTSSystem,
+                    sprite, spriteInDOTSRegisterBakeSprite.RenderTypeV, out var spriteHashCode, out var spriteKeyOpaque,
+                    out var spriteKeyTransparent);
                 if (beSuc)
+                {
                     ecb.RemoveComponent<SpriteInDOTSRegisterBakeSprite>(entity);
+                    spriteInDotsRw.ValueRW.SpriteHashCode = spriteHashCode;
+                    spriteInDotsRw.ValueRW.SpriteKeyOpaque = spriteKeyOpaque;
+                    spriteInDotsRw.ValueRW.SpriteKeyTransparent = spriteKeyTransparent;
+                }
             }
 
             ecb.Playback(state.EntityManager);
@@ -45,18 +50,23 @@ namespace HM.HMSprite.ECS
         /// </summary>
         /// <param name="graphicsSystem"></param>
         /// <param name="spriteInDOTSSystem"></param>
-        /// <param name="spriteInDOTS"></param>
         /// <param name="sprite"></param>
         /// <param name="renderType"></param>
+        /// <param name="spriteHashCode"></param>
+        /// <param name="spriteKeyOpaque"></param>
+        /// <param name="spriteKeyTransparent"></param>
         /// <returns></returns>
         public bool RegisterSprite(ref EntitiesGraphicsSystem graphicsSystem,
-            ref HMSpriteInDOTSSystem spriteInDOTSSystem,
-            ref SpriteInDOTS spriteInDOTS, in Sprite sprite, in RenderType renderType
+            ref HMSpriteInDOTSSystem spriteInDOTSSystem, in Sprite sprite, in RenderType renderType,
+            out int spriteHashCode, out int spriteKeyOpaque, out int spriteKeyTransparent
         )
         {
             if (sprite == null)
             {
                 Debug.Log($"SpriteInDOTSRegister注册sprite 为空");
+                spriteHashCode = 0;
+                spriteKeyOpaque = 0;
+                spriteKeyTransparent = 0;
                 return false;
             }
 
@@ -101,13 +111,10 @@ namespace HM.HMSprite.ECS
                 });
             }
 
+            spriteHashCode = spriteHash;
+            spriteKeyOpaque = SpriteInDOTSMgr.GetSpriteOrTextureKey(spriteHash, RenderType.Opaque);
+            spriteKeyTransparent = SpriteInDOTSMgr.GetSpriteOrTextureKey(spriteHash, RenderType.Transparent);
 
-            spriteInDOTS.SpriteHashCode =
-                spriteHash; //替换烘焙出来的hashCode,因为runtime的hashcode和编辑器中资源的hashCode不相同
-            spriteInDOTS.SpriteKeyOpaque =
-                SpriteInDOTSMgr.GetSpriteOrTextureKey(spriteHash, RenderType.Opaque);
-            spriteInDOTS.SpriteKeyTransparent =
-                SpriteInDOTSMgr.GetSpriteOrTextureKey(spriteHash, RenderType.Transparent);
 
             return true;
         }

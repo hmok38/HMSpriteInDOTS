@@ -21,15 +21,22 @@ namespace HM.HMSprite.FrameAnimation
             var handle = state.WorldUnmanaged.GetExistingUnmanagedSystem<HMSpriteInDOTSSystem>();
             var ecb = new Unity.Entities.EntityCommandBuffer(Allocator.Temp);
             var spriteInDOTSSystem = state.WorldUnmanaged.GetUnsafeSystemRef<HMSpriteInDOTSSystem>(handle);
+            var spriteInDOTSRegisterBakeHandle =
+                state.WorldUnmanaged.GetExistingUnmanagedSystem<SpriteInDOTSRegisterBakeSpriteSystem>();
 
+            var registerBakeSpriteSystem =
+                state.WorldUnmanaged.GetUnsafeSystemRef<SpriteInDOTSRegisterBakeSpriteSystem>(
+                    spriteInDOTSRegisterBakeHandle);
 
             //Debug.Log($"FrameAnimationRegisterBakerSpriteSystem MeshID ={spriteInDOTSSystem.MeshID.value}");
             foreach (var (spriteInDotsRw, spriteInDOTSRegisterBakeSprite, entity) in
                      SystemAPI
                          .Query<RefRW<SpriteInDOTS>, FrameAnimationRegisterBakerSprite>().WithEntityAccess())
             {
-                DynamicBuffer<FrameSpriteData> buffer = ecb.AddBuffer<FrameSpriteData>(entity);
+                DynamicBuffer<FrameSpriteData> buffer = ecb.SetBuffer<FrameSpriteData>(entity);
+                buffer.Clear();
 
+                bool hasFail = false;
                 for (int i = 0; i < spriteInDOTSRegisterBakeSprite.Sprites.Count; i++)
                 {
                     var sprite = spriteInDOTSRegisterBakeSprite.Sprites[i];
@@ -39,34 +46,23 @@ namespace HM.HMSprite.FrameAnimation
                         continue;
                     }
 
+                    var beSuc = registerBakeSpriteSystem.RegisterSprite(ref graphicsSystem, ref spriteInDOTSSystem,
+                        sprite,
+                        spriteInDotsRw.ValueRO.RenderTypeV, out var spriteHashCode, out var spriteKeyOpaque,
+                        out var spriteKeyTransparent);
 
-                    var spriteHash = sprite.GetHashCode();
-                
-                    if (!spriteInDOTSSystem.SpriteKeyMap.ContainsKey(spriteHash))
+                    if (beSuc)
                     {
-                        //Debug.Log($"FrameAnimation注册sprite {sprite.name} {spriteHash}");
-                        var textureHash = sprite.texture.GetHashCode();
-                        if (!spriteInDOTSSystem.MaterialMap.ContainsKey(textureHash))
+                        buffer.Add(new FrameSpriteData()
                         {
-                            //Debug.Log($"FrameAnimation注册texture {sprite.texture.name}  {textureHash}");
-                            var mat = SpriteInDOTSMgr.CreateMaterial(sprite.texture.name);
-                            mat.mainTexture = sprite.texture;
-                            var id = graphicsSystem.RegisterMaterial(mat);
-                            spriteInDOTSSystem.MaterialMap.Add(textureHash, id);
-                        }
-
-
-                        spriteInDOTSSystem.SpriteKeyMap.Add(spriteHash, new SpriteInDOTSId()
-                        {
-                            MaterialID = spriteInDOTSSystem.MaterialMap[textureHash],
-                            MeshID = spriteInDOTSSystem.MeshID,
-                            SpriteHashCode = spriteHash,
-                            MaterialUvRect = sprite.UVRect(),
-                            MaterialPivotAndSize = sprite.PivotAndUnitSize()
+                            SpriteHash = spriteHashCode, SpriteKeyOpaque = spriteKeyOpaque,
+                            SpriteKeyTransparent = spriteKeyTransparent
                         });
                     }
-
-                    buffer.Add(new FrameSpriteData() { SpriteHash = spriteHash });
+                    else
+                    {
+                        hasFail = true;
+                    }
                 }
 
 
@@ -76,7 +72,8 @@ namespace HM.HMSprite.FrameAnimation
                     spriteInDotsRw.ValueRW.SpriteHashCode = spriteInDOTSRegisterBakeSprite.Sprites[0].GetHashCode();
                 }
 
-                ecb.RemoveComponent<FrameAnimationRegisterBakerSprite>(entity);
+                if (!hasFail)
+                    ecb.RemoveComponent<FrameAnimationRegisterBakerSprite>(entity);
             }
 
             ecb.Playback(state.EntityManager);

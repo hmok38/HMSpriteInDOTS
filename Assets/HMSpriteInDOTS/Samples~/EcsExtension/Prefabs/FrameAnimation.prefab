@@ -99,6 +99,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: e50b37e5424d56e48a92749e600279ad, type: 3}
   color: {r: 1, g: 1, b: 1, a: 1}
+  renderType: 0
+  slicedWidthAndHeight: {x: 1.28, y: 1.28}
+  alphaClipThreshold: 0.5
+  spriteDrawMode: 0
 --- !u!114 &8537591194823015062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,5 +115,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9dcb9e2dec1fdb48a345d7404053b42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameAnimationS0: {fileID: 11400000, guid: c4af6f9507007c0468994bab6bcc34ff, type: 2}
+  hmFrameAnimationS0: {fileID: 11400000, guid: c4af6f9507007c0468994bab6bcc34ff, type: 2}
   speed: 1
