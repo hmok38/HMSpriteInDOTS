@@ -5,7 +5,6 @@
   "description": "HMSpriteInDOTS",
   "unity": "2021.3",
   "dependencies": {
-    
   },
   "author": {
     "name": "HuangMin",
@@ -14,8 +13,8 @@
   },
   "samples": [
     {
-      "displayName": "EcsExtension",
-      "description": "Ecs扩展",
+      "displayName": "EcsExtension HMSprite Ecs 扩展",
+      "description": "Ecs扩展,安装此扩展后,在subScene中放置带有HMSprite的脚本,会自动被烘焙到entity,并使用DOTSInstancing的shader和BGR技术,但需要先安装entitis相关包和2022.3版本以上,且对设备graphyApi要求支持OpenGLES3.1或者vulkan(#pragma target 4.5)",
       "path": "sample~/EcsExtension"
     },
     {
