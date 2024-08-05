@@ -115,5 +115,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9dcb9e2dec1fdb48a345d7404053b42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hmFrameAnimationS0: {fileID: 11400000, guid: c4af6f9507007c0468994bab6bcc34ff, type: 2}
+  hmFrameAnimationS0: {fileID: 11400000, guid: 52a306d7ca09e5a42812a5dec474a09b, type: 2}
   speed: 1
