@@ -58,6 +58,34 @@ namespace HM.HMSprite.Editor
                     }
                 }
             }
+
+            if (cs.Sprite != null && GUILayout.Button("设置原始宽高"))
+            {
+                if (cs.SpriteDrawMode == SpriteDrawMode.Sliced)
+                {
+                    var size = cs.Sprite.PivotAndUnitSize();
+                    cs.SlicedWidthAndHeight = new Vector2(size.z, size.w);
+
+
+                    if (cs.transform.localScale != Vector3.one)
+                    {
+                        cs.transform.localScale = Vector3.one;
+                    }
+
+                    if (!Application.isPlaying)
+                    {
+                        UnityEditor.EditorUtility.SetDirty(cs);
+                    }
+                }
+                else if (cs.SpriteDrawMode == SpriteDrawMode.Simple)
+                {
+                    cs.transform.localScale = Vector3.one;
+                    if (!Application.isPlaying)
+                    {
+                        UnityEditor.EditorUtility.SetDirty(cs);
+                    }
+                }
+            }
         }
     }
 
