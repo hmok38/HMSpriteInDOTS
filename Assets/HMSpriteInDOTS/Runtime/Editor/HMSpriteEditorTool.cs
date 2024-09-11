@@ -11,19 +11,19 @@ namespace HM.HMSprite.Editor
     {
         private void OnSceneGUI()
         {
-            var cs = ((HMSprite)target);
-            Transform transform = cs.transform;
-            MeshRenderer meshRenderer = transform.GetComponent<MeshRenderer>();
-            MeshFilter meshFilter = transform.GetComponent<MeshFilter>();
-
-            if (meshRenderer == null || meshFilter == null) return;
-            meshFilter.sharedMesh.bounds = meshRenderer.localBounds;
-            if (transform.hasChanged)
-            {
-                transform.hasChanged = false;
-
-                cs.OnEditorCallTransformChanged();
-            }
+            // var cs = ((HMSprite)target);
+            // Transform transform = cs.transform;
+            // MeshRenderer meshRenderer = transform.GetComponent<MeshRenderer>();
+            // MeshFilter meshFilter = transform.GetComponent<MeshFilter>();
+            //
+            // if (meshRenderer == null || meshFilter == null) return;
+            // meshFilter.sharedMesh.bounds = meshRenderer.localBounds;
+            // if (transform.hasChanged)
+            // {
+            //     transform.hasChanged = false;
+            //
+            //     cs.OnEditorCallTransformChanged();
+            // }
         }
 
         public override void OnInspectorGUI()

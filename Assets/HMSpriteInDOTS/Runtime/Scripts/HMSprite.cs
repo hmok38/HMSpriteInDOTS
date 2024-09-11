@@ -191,7 +191,7 @@ namespace HM.HMSprite
                 {
                     if (MaterialOpaque == null)
                     {
-                        MaterialOpaque = new Material(GlobalMaterialOpaqueRes)
+                        _materialOpaque = new Material(GlobalMaterialOpaqueRes)
                         {
                             name = GlobalMaterialOpaqueRes.name,
                             color = Color.white
@@ -204,7 +204,7 @@ namespace HM.HMSprite
                 {
                     if (MaterialTransparent == null)
                     {
-                        MaterialTransparent = new Material(GlobalMaterialTransparentRes)
+                        _materialTransparent = new Material(GlobalMaterialTransparentRes)
                         {
                             name = GlobalMaterialTransparentRes.name,
                             color = Color.white
@@ -274,13 +274,13 @@ namespace HM.HMSprite
                     (SpriteDrawMode == SpriteDrawMode.Sliced ? SlicedWidthAndHeight.y : pivotAndSize.w));
 
                 Vector3 scale = transform.lossyScale;
-                meshRenderer.bounds = SpriteDrawMode == SpriteDrawMode.Sliced
-                    ? new Bounds(this.transform.position + new Vector3(offset.x * scale.x, offset.y * scale.y),
-                        new Vector3(SlicedWidthAndHeight.x * scale.x, SlicedWidthAndHeight.y * scale.y, 0f))
-                    : new Bounds(this.transform.position + new Vector3(offset.x * scale.x, offset.y * scale.y),
-                        new Vector3(
-                            pivotAndSize.z * scale.x, pivotAndSize.w * scale.y, 0f
-                        ));
+                // meshRenderer.bounds = SpriteDrawMode == SpriteDrawMode.Sliced
+                //     ? new Bounds(this.transform.position + new Vector3(offset.x * scale.x, offset.y * scale.y),
+                //         new Vector3(SlicedWidthAndHeight.x * scale.x, SlicedWidthAndHeight.y * scale.y, 0f))
+                //     : new Bounds(this.transform.position + new Vector3(offset.x * scale.x, offset.y * scale.y),
+                //         new Vector3(
+                //             pivotAndSize.z * scale.x, pivotAndSize.w * scale.y, 0f
+                //         ));
                 //var bounds = meshRenderer.bounds;
                 //Debug.DrawLine(bounds.min, bounds.max, Color.red, 1000);
                 meshRenderer.localBounds = SpriteDrawMode == SpriteDrawMode.Sliced
@@ -293,7 +293,7 @@ namespace HM.HMSprite
             else
             {
                 meshRenderer.ResetLocalBounds();
-                meshRenderer.ResetBounds();
+                //meshRenderer.ResetBounds();
             }
         }
 
