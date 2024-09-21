@@ -29,7 +29,7 @@ namespace HM.HMSprite
             get => sprite;
             set
             {
-                var beSame = sprite != value;
+                var beSame = sprite == value;
                 sprite = value;
                 if (!beSame) SetSprite(sprite);
             }
@@ -40,7 +40,7 @@ namespace HM.HMSprite
             get => color;
             set
             {
-                var beSame = color != value;
+                var beSame = color == value;
                 color = value;
                 if (!beSame) SetSprite(Sprite);
             }
