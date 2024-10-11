@@ -24,6 +24,38 @@ namespace HM.HMSprite
         private MeshRenderer _meshRenderer;
         private MeshFilter _meshFilter;
 
+        [SerializeField, HideInInspector] private int m_SortingOrder;
+        [SerializeField, HideInInspector] private int m_SortingLayerID;
+
+        /// <summary>
+        /// 渲染order
+        /// </summary>
+        public int SortingOrder
+        {
+            get => m_SortingOrder;
+            set
+            {
+                m_SortingOrder = value;
+                OnSortOrderChange();
+            }
+        }
+
+        public int SortingLayerID
+        {
+            get => m_SortingLayerID;
+            set
+            {
+                m_SortingLayerID = value;
+                OnSortOrderChange();
+            }
+        }
+
+        public void OnSortOrderChange()
+        {
+            this._meshRenderer.sortingLayerID = m_SortingLayerID;
+            this._meshRenderer.sortingOrder = m_SortingOrder;
+        }
+
         public Sprite Sprite
         {
             get => sprite;
@@ -169,6 +201,7 @@ namespace HM.HMSprite
             if (this._meshRenderer == null) this._meshRenderer = this.GetComponent<MeshRenderer>();
             if (this._meshFilter == null) this._meshFilter = this.GetComponent<MeshFilter>();
             this._meshRenderer.sharedMaterial = null;
+            OnSortOrderChange();
             SetSprite(Sprite);
         }
 

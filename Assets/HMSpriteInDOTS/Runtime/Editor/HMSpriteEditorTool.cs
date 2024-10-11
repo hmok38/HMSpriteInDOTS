@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using UnityEditor;
 using UnityEditor.EditorTools;
 using UnityEngine;
@@ -26,10 +27,71 @@ namespace HM.HMSprite.Editor
             // }
         }
 
+        private Type _sortingLayerEditorUtilityType;
+
+        private static Type GetTypeByName(string className)
+        {
+            // 尝试直接从当前程序集获取类型
+            Type type = Type.GetType(className);
+            if (type != null)
+            {
+                return type;
+            }
+
+            // 如果直接获取失败，则遍历所有加载的程序集
+            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (Assembly assembly in assemblies)
+            {
+                type = assembly.GetType(className);
+                if (type != null)
+                {
+                    return type;
+                }
+            }
+
+            // 如果仍然没有找到类型，则返回null
+            return null;
+        }
+
+        private SerializedProperty m_SortingOrder;
+        private SerializedProperty m_SortingLayerID;
+
+        private void OnEnable()
+        {
+            var cs = ((HMSprite)target);
+            this.m_SortingOrder = this.serializedObject.FindProperty("m_SortingOrder");
+            this.m_SortingLayerID = this.serializedObject.FindProperty("m_SortingLayerID");
+        }
+
         public override void OnInspectorGUI()
         {
-            base.OnInspectorGUI();
             var cs = ((HMSprite)target);
+            
+            //======================sortLayer相关===============
+            this.serializedObject.Update();
+            if (this._sortingLayerEditorUtilityType == null)
+            {
+                this._sortingLayerEditorUtilityType = GetTypeByName("UnityEditor.SortingLayerEditorUtility");
+            }
+
+            var oldOrder = this.m_SortingOrder.intValue;
+            var oldLayerId = this.m_SortingLayerID.intValue;
+
+            var method = this._sortingLayerEditorUtilityType.GetMethod("RenderSortingLayerFields",
+                new Type[] { typeof(SerializedProperty), typeof(SerializedProperty) });
+            method.Invoke(null, new[] { this.m_SortingOrder, this.m_SortingLayerID });
+
+            this.serializedObject.ApplyModifiedProperties();
+            if (this.m_SortingOrder.intValue != oldOrder || this.m_SortingLayerID.intValue != oldLayerId)
+            {
+                cs.OnSortOrderChange();
+            }
+            //=====================================
+            
+            
+            base.OnInspectorGUI();
+
+
             if (cs.SpriteDrawMode == SpriteDrawMode.Sliced)
             {
                 EditorGUILayout.Space();
