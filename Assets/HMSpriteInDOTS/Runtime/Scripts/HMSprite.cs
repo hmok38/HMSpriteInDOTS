@@ -374,6 +374,7 @@ namespace HM.HMSprite
 
         private void ValidateDelayCall()
         {
+            if (this == null) return;
             Baked = false;
             SetSprite(Sprite);
         }
