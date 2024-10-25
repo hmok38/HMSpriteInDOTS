@@ -122,6 +122,63 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!21 &28234844
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 32
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HMSpriteTransparent
+  m_Shader: {fileID: -6465566751694194690, guid: cad4f94b5e994c54b907e9446fc65261,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 8711939763936270973, guid: 579959227b16b9a43af5d6df434ba6b1,
+          type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AddStrength: 0
+    - _AlphaClipThreshold: 0.5
+    - _DrawType: 0
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    m_Colors:
+    - _AddColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Border: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 0.6603774, g: 0.3582236, b: 0.3582236, a: 1}
+    - _MeshWH: {r: 1, g: 1, b: 100, a: 0}
+    - _PivotAndSize: {r: 0.5, g: 0, b: 1.28, a: 1.28}
+    - _UvRect: {r: 0.38671875, g: 0.12890625, b: 0.51171875, a: 0.25390625}
+    - _WidthAndHeight: {r: 1.28, g: 1.28, b: 0, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1001 &28666454
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -189,7 +246,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 1207427606}
+      objectReference: {fileID: 1714882355}
     - target: {fileID: 5715532649320916861, guid: c01aba281176e5f4c8dcb3eb83ba8302,
         type: 3}
       propertyPath: sprite
@@ -268,7 +325,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 1500546995}
+      objectReference: {fileID: 28234844}
     - target: {fileID: 5715532649320916861, guid: c01aba281176e5f4c8dcb3eb83ba8302,
         type: 3}
       propertyPath: sprite
@@ -300,60 +357,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c01aba281176e5f4c8dcb3eb83ba8302, type: 3}
---- !u!21 &581289247
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 32
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: HMSpriteTransparent
-  m_Shader: {fileID: -6465566751694194690, guid: cad4f94b5e994c54b907e9446fc65261,
-    type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: b2afde410fc918b42aacf517ff52c0d7, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_Lightmaps:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_LightmapsInd:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_ShadowMasks:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _AlphaClipThreshold: 0.5
-    - _DrawType: 0
-    - _QueueControl: 0
-    - _QueueOffset: 0
-    m_Colors:
-    - _Border: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 0.6603774, g: 0.3582236, b: 0.3582236, a: 1}
-    - _MeshWH: {r: 1, g: 1, b: 100, a: 0}
-    - _PivotAndSize: {r: 0.5, g: 0.5, b: 4.08, a: 2.53}
-    - _UvRect: {r: 0.52783203, g: 0.6357422, b: 0.7270508, a: 0.75927734}
-    - _WidthAndHeight: {r: 0.32, g: 0.32, b: 0, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1001 &774244332
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -421,7 +424,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 581289247}
+      objectReference: {fileID: 1872918725}
     - target: {fileID: 5715532649320916861, guid: c01aba281176e5f4c8dcb3eb83ba8302,
         type: 3}
       propertyPath: sprite
@@ -453,7 +456,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c01aba281176e5f4c8dcb3eb83ba8302, type: 3}
---- !u!21 &1207427606
+--- !u!21 &995900167
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 32
@@ -478,7 +481,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: b2afde410fc918b42aacf517ff52c0d7, type: 3}
+        m_Texture: {fileID: 2800000, guid: b6837ee5683ee114193d6fe7cf6b0ab1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -495,16 +498,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AddStrength: 0.19
     - _AlphaClipThreshold: 0.5
     - _DrawType: 0
-    - _QueueControl: 0
+    - _QueueControl: -1
     - _QueueOffset: 0
     m_Colors:
+    - _AddColor: {r: 0.23233342, g: 1, b: 0, a: 1}
     - _Border: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _MeshWH: {r: 1, g: 1, b: 100, a: 0}
-    - _PivotAndSize: {r: 0.5, g: 0.5, b: 1.57, a: 1.2792388}
-    - _UvRect: {r: 0.092285156, g: 0.42777154, b: 0.16894531, a: 0.49023438}
+    - _PivotAndSize: {r: 0.5, g: 0.5, b: 0.32, a: 0.32}
+    - _UvRect: {r: 0, g: 0, b: 1, a: 1}
     - _WidthAndHeight: {r: 0.32, g: 0.32, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!1001 &1352012510
@@ -574,68 +579,33 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 1840961380}
+      objectReference: {fileID: 995900167}
+    - target: {fileID: 5715532649320916861, guid: c01aba281176e5f4c8dcb3eb83ba8302,
+        type: 3}
+      propertyPath: addColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5715532649320916861, guid: c01aba281176e5f4c8dcb3eb83ba8302,
+        type: 3}
+      propertyPath: addColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5715532649320916861, guid: c01aba281176e5f4c8dcb3eb83ba8302,
+        type: 3}
+      propertyPath: addColor.r
+      value: 0.23233342
+      objectReference: {fileID: 0}
+    - target: {fileID: 5715532649320916861, guid: c01aba281176e5f4c8dcb3eb83ba8302,
+        type: 3}
+      propertyPath: addStrength
+      value: 0.19
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c01aba281176e5f4c8dcb3eb83ba8302, type: 3}
---- !u!21 &1500546995
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 32
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: HMSpriteTransparent
-  m_Shader: {fileID: -6465566751694194690, guid: cad4f94b5e994c54b907e9446fc65261,
-    type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 8711939763936270973, guid: 374da11da09ce344ba6de689b523dd91,
-          type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_Lightmaps:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_LightmapsInd:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_ShadowMasks:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _AlphaClipThreshold: 0.5
-    - _DrawType: 0
-    - _QueueControl: 0
-    - _QueueOffset: 0
-    m_Colors:
-    - _Border: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 0.6603774, g: 0.3582236, b: 0.3582236, a: 1}
-    - _MeshWH: {r: 1, g: 1, b: 100, a: 0}
-    - _PivotAndSize: {r: 0.5, g: 0, b: 1.28, a: 1.28}
-    - _UvRect: {r: 0.38671875, g: 0.12890625, b: 0.51171875, a: 0.25390625}
-    - _WidthAndHeight: {r: 0.32, g: 0.32, b: 0, a: 0}
-  m_BuildTextureStacks: []
---- !u!21 &1840961380
+--- !u!21 &1714882355
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 32
@@ -660,7 +630,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: b6837ee5683ee114193d6fe7cf6b0ab1, type: 3}
+        m_Texture: {fileID: 2800000, guid: b2afde410fc918b42aacf517ff52c0d7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -677,17 +647,75 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AddStrength: 0
+    - _AlphaClipThreshold: 0.5
+    - _DrawType: 0
+    - _QueueControl: -1
+    - _QueueOffset: 0
+    m_Colors:
+    - _AddColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Border: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _MeshWH: {r: 1, g: 1, b: 100, a: 0}
+    - _PivotAndSize: {r: 0.5, g: 0.5, b: 1.57, a: 1.2792388}
+    - _UvRect: {r: 0.092285156, g: 0.42777154, b: 0.16894531, a: 0.49023438}
+    - _WidthAndHeight: {r: 1.57, g: 1.2792388, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!21 &1872918725
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 32
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HMSpriteTransparent
+  m_Shader: {fileID: -6465566751694194690, guid: cad4f94b5e994c54b907e9446fc65261,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: b2afde410fc918b42aacf517ff52c0d7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AddStrength: 0
     - _AlphaClipThreshold: 0.5
     - _DrawType: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
+    - _AddColor: {r: 1, g: 1, b: 1, a: 1}
     - _Border: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.6603774, g: 0.3582236, b: 0.3582236, a: 1}
     - _MeshWH: {r: 1, g: 1, b: 100, a: 0}
-    - _PivotAndSize: {r: 0.5, g: 0.5, b: 0.32, a: 0.32}
-    - _UvRect: {r: 0, g: 0, b: 1, a: 1}
-    - _WidthAndHeight: {r: 0.32, g: 0.32, b: 0, a: 0}
+    - _PivotAndSize: {r: 0.5, g: 0.5, b: 4.08, a: 2.53}
+    - _UvRect: {r: 0.52783203, g: 0.6357422, b: 0.7270508, a: 0.75927734}
+    - _WidthAndHeight: {r: 4.08, g: 2.53, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

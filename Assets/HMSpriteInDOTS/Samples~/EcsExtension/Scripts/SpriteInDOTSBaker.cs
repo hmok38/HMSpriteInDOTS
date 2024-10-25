@@ -56,6 +56,20 @@ namespace HM.HMSprite.ECS
                 {
                     Value = authoring.AlphaClipThreshold
                 });
+            var addColor = new float4(authoring.AddColor.r, authoring.AddColor.g, authoring.AddColor.b,
+                authoring.AddColor.a);
+            AddComponent(entity,
+                new MaterialAddColor()
+                {
+                    Value = addColor
+                });
+            AddComponent(entity,
+                new MaterialAddStrength()
+                {
+                    Value = authoring.AddStrength
+                });
+
+
             var spriteInDOTS = new SpriteInDOTS()
             {
                 SpriteHashCode = authoring.Sprite != null ? authoring.Sprite.GetHashCode() : 0,

@@ -50,6 +50,37 @@ namespace HM.HMSprite
             }
         }
 
+        [Header("叠加色"), SerializeField] private Color addColor = Color.white;
+
+        [Header("叠加强度,1为全部叠加色"), SerializeField]
+        private float addStrength = 0;
+
+        public Color AddColor
+        {
+            get => addColor;
+            set
+            {
+                if (addColor != value)
+                {
+                    addColor = value;
+                    SetSprite(this.sprite);
+                }
+            }
+        }
+
+        public float AddStrength
+        {
+            get => addStrength;
+            set
+            {
+                if (Math.Abs(addStrength - value) > 0.0001f)
+                {
+                    addStrength = value;
+                    SetSprite(this.sprite);
+                }
+            }
+        }
+
         public void OnSortOrderChange()
         {
             this._meshRenderer.sortingLayerID = m_SortingLayerID;
@@ -291,6 +322,8 @@ namespace HM.HMSprite
             CalculateBound(spriteTemp);
             material.SetFloat(AlphaClipThresholdKey, AlphaClipThreshold);
             material.SetInt(DrawTypeKey, GetDrawTypeValue(this.SpriteDrawMode));
+            material.SetColor(AddColorKey, this.AddColor);
+            material.SetFloat(AddStrengthKey, this.AddStrength);
         }
 
         private void CalculateBound(Sprite spriteTemp)
@@ -332,6 +365,15 @@ namespace HM.HMSprite
 
         public void OnValidate()
         {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.delayCall -= ValidateDelayCall;
+            UnityEditor.EditorApplication.delayCall += ValidateDelayCall;
+
+#endif
+        }
+
+        private void ValidateDelayCall()
+        {
             Baked = false;
             SetSprite(Sprite);
         }
@@ -345,6 +387,8 @@ namespace HM.HMSprite
         public static readonly int DrawTypeKey = Shader.PropertyToID("_DrawType");
         public static readonly int WidthAndHeightKey = Shader.PropertyToID("_WidthAndHeight");
         public static readonly int AlphaClipThresholdKey = Shader.PropertyToID("_AlphaClipThreshold");
+        public static readonly int AddColorKey = Shader.PropertyToID("_AddColor");
+        public static readonly int AddStrengthKey = Shader.PropertyToID("_AddStrength");
 
         private static Material _globalMaterialOpaqueRes;
 
