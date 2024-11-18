@@ -236,6 +236,18 @@ namespace HM.HMSprite
             SetSprite(Sprite);
         }
 
+        private void OnDestroy()
+        {
+            if (this._materialOpaque != null)
+            {
+                Destroy(this._materialOpaque);
+            }
+
+            if (this._materialTransparent != null)
+            {
+                Destroy(this._materialTransparent);
+            }
+        }
 
         void SetSprite(Sprite spriteTemp)
         {
