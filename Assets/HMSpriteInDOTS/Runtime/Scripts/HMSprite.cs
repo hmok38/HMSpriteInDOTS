@@ -240,12 +240,12 @@ namespace HM.HMSprite
         {
             if (this._materialOpaque != null)
             {
-                Destroy(this._materialOpaque);
+                DestroyImmediate(this._materialOpaque);
             }
 
             if (this._materialTransparent != null)
             {
-                Destroy(this._materialTransparent);
+                DestroyImmediate(this._materialTransparent);
             }
         }
 
@@ -255,7 +255,13 @@ namespace HM.HMSprite
 
             if (this._meshRenderer == null) this._meshRenderer = this.GetComponent<MeshRenderer>();
             if (this._meshFilter == null) this._meshFilter = this.GetComponent<MeshFilter>();
+            if (spriteTemp == null)
+            {
+                this._meshRenderer.enabled = false;
+                return;
+            }
 
+            if (!this._meshRenderer.enabled) this._meshRenderer.enabled = true;
             var material = this._meshRenderer.sharedMaterial;
 
             if (material == null
