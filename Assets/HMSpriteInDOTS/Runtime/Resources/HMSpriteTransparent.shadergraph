@@ -35,6 +35,9 @@
         },
         {
             "m_Id": "0226a80b4c0c438da824bd6d79c61a72"
+        },
+        {
+            "m_Id": "c044d9ee53c843339c28002bc0aa0db6"
         }
     ],
     "m_Keywords": [],
@@ -2459,7 +2462,7 @@
     "m_ZTestMode": 4,
     "m_ZWriteControl": 0,
     "m_AlphaMode": 0,
-    "m_RenderFace": 2,
+    "m_RenderFace": 0,
     "m_AlphaClip": false,
     "m_CastShadows": false,
     "m_ReceiveShadows": false,
@@ -2861,6 +2864,34 @@
         "y": 0.0,
         "z": 0.0,
         "w": 0.0
+    }
+}
+
+{
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
+    "m_ObjectId": "c044d9ee53c843339c28002bc0aa0db6",
+    "m_Guid": {
+        "m_GuidSerialized": "dfb8476a-20cf-43e6-b340-40f0a043f781"
+    },
+    "m_Name": "RenderFace",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "RenderFace",
+    "m_DefaultReferenceName": "_RenderFace",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": 0.0,
+    "m_FloatType": 0,
+    "m_RangeValues": {
+        "x": 0.0,
+        "y": 1.0
     }
 }
 
@@ -3799,6 +3830,9 @@
         },
         {
             "m_Id": "c3502432e1d740339291ec6f0f3f8785"
+        },
+        {
+            "m_Id": "c044d9ee53c843339c28002bc0aa0db6"
         }
     ]
 }
