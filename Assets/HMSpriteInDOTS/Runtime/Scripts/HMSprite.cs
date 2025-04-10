@@ -27,6 +27,11 @@ namespace HM.HMSprite
         [SerializeField, HideInInspector] private int m_SortingOrder;
         [SerializeField, HideInInspector] private int m_SortingLayerID;
 
+        [SerializeField, Header("是否启用高斯模糊")] private bool enableBlur;
+
+        [SerializeField, Header("高斯模糊程度,按照主贴图的像素转ui宽度进行乘积"), Range(0, 5)]
+        private float blurRadiusPow;
+
         /// <summary>
         /// 渲染order
         /// </summary>
@@ -342,6 +347,8 @@ namespace HM.HMSprite
             material.SetInt(DrawTypeKey, GetDrawTypeValue(this.SpriteDrawMode));
             material.SetColor(AddColorKey, this.AddColor);
             material.SetFloat(AddStrengthKey, this.AddStrength);
+            material.SetFloat(EnableBlurKey, enableBlur ? 1 : 0);
+            material.SetFloat(BlurRadiusPowKey, blurRadiusPow);
         }
 
         private void CalculateBound(Sprite spriteTemp)
@@ -408,6 +415,8 @@ namespace HM.HMSprite
         public static readonly int AlphaClipThresholdKey = Shader.PropertyToID("_AlphaClipThreshold");
         public static readonly int AddColorKey = Shader.PropertyToID("_AddColor");
         public static readonly int AddStrengthKey = Shader.PropertyToID("_AddStrength");
+        public static readonly int EnableBlurKey = Shader.PropertyToID("_EnableBlur");
+        public static readonly int BlurRadiusPowKey = Shader.PropertyToID("_BlurRadiusPow");
 
         private static Material _globalMaterialOpaqueRes;
 
