@@ -33,6 +33,34 @@ namespace HM.HMSprite
         private float blurRadiusPow;
 
         /// <summary>
+        /// 启用模糊
+        /// </summary>
+        public bool EnableBlur
+        {
+            get => enableBlur;
+            set
+            {
+                if (value == enableBlur) return;
+                enableBlur = value;
+                SetSprite(this.sprite);
+            }
+        }
+
+        /// <summary>
+        /// 设置模糊程度
+        /// </summary>
+        public float BlurRadiusPow
+        {
+            get => blurRadiusPow;
+            set
+            {
+                if (Math.Abs(value - blurRadiusPow) < float.Epsilon) return;
+                blurRadiusPow = value;
+                SetSprite(this.sprite);
+            }
+        }
+
+        /// <summary>
         /// 渲染order
         /// </summary>
         public int SortingOrder
